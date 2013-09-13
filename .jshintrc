@@ -1,0 +1,33 @@
+// NOTE: this file MUST be a valid JSON format, this is wrong
+{
+  curly: true,
+  eqeqeq: true,
+  immed: true,
+  latedef: true,
+  newcap: true,
+  noarg: true,
+  sub: true,
+  undef: true,
+  boss: true,
+  eqnull: true,
+  browser: true,
+  globals: {
+    jQuery: true,
+    $: false,
+    _: false,
+    angular: false,
+    require: false,
+    process: false,
+    describe: false,
+    beforeEach: false,
+    module: false,
+    it: false,
+    inject: false,
+    browser: true,
+    console: false,
+    assert: false,
+    SherpaApp: true,
+    Mock: false, // BAD
+    TICKET: false // BAD
+  }
+}
