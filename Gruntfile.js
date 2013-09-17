@@ -11,6 +11,7 @@ module.exports = function(grunt) {
         src: [
           'vendor/jquery-2.0.3.min.js',
           'vendor/angular.min.js',
+          'vendor/slideout.js',
           'vendor/bootstrap.min.js',
           'vendor/leaflet.min.js'
         ],

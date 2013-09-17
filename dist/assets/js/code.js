@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('skipspicks', []);
+  angular.module('skipspicks', ['slideout']);
 
   angular.module('skipspicks').run(['$rootScope', function($rootScope) {
 
