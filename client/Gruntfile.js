@@ -9,10 +9,10 @@ module.exports = function(grunt) {
       },
       minlibs: {
         src: [
-          'vendor/jquery-2.0.3.min.js',
+          // 'vendor/jquery-2.0.3.min.js',
           'vendor/angular.min.js',
           'vendor/slideout.js',
-          'vendor/bootstrap.min.js',
+          // 'vendor/bootstrap.min.js',
           'vendor/leaflet.min.js'
         ],
         dest: '<%= distdir %>/assets/js/vendor.min.js'

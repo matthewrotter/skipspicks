@@ -4,6 +4,19 @@ var mysql = require('mysql'),
   Q = require('q'),
   conn = mongoose.connect('mongodb://localhost/skipspicks');
 
+function checkError(err) {
+  if (err) {
+    return console.log('Error', err);
+  }
+}
+
+var connection = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'skipspicks'
+});
+
 var asc = 1,
   desc = -1;
 
@@ -31,102 +44,32 @@ var LocationSchema = new mongoose.Schema({
   created: Date
 });
 
+/*
 LocationSchema.index({
   created: desc
 });
 LocationSchema.index({
   updated: desc
 });
+*/
 
 var Location = mongoose.model('Location', LocationSchema);
 // mongoose.Types.ObjectId
 
-var UserSchema = new mongoose.Schema({
-  id: Number,
-  username: String,
-  password: String,
-  email: String,
-  mobile: Number,
-  updated: { type: Date, default: Date.now },
-  created: Date
+Location.remove({}, function(err) {
+  checkError(err);
+  console.log('cleared Location');
 });
-
-var User = mongoose.model('User', UserSchema);
-
-var connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'skipspicks'
-});
-
-// users
-/*
- connection.query('select * from user', function(err, rows) {
- rows.forEach(function(row) {
- var user = new User({
- id: row.user_id,
- username: row.user_name,
- password: row.password,
- email: row.email,
- mobile: null,
- created: Date.now()
- });
- user.save();
- });
- console.log('DONE');
- });
- */
-
-// build out a detail config
-var ConfigSchema = new mongoose.Schema({
-  details: [],
-  cuisines: [],
-  ratings: [],
-  types: [],
-  prices: []
-});
-
-var Config = mongoose.model('Config', ConfigSchema);
-var config = new Config({
-  details: [],
-  cuisines: [],
-  ratings: [],
-  types: [],
-  prices: []
-});
-
-var sql = connection.query('select * from detail', function(err, details) {
-  details.forEach(function(det) {
-    switch (det.detail_type_id) {
-      case 1:
-        config.details.push(det.description);
-        break;
-      case 2:
-        config.cuisines.push(det.description);
-        break;
-      case 3:
-        config.ratings.push(det.description);
-        break;
-      case 4:
-        config.types.push(det.description);
-        break;
-      case 5:
-        config.prices.push(det.description);
-        break;
-    }
-  });
-  console.log('C', config);
-  config.save();
-});
-
 
 // locations
 connection.query('select * from location', function(err, rows) {
-  // console.log(err, rows);
-  console.log('L', rows.length);
+  checkError(err);
+  console.log('Count', rows.length);
 
+  var count = 0;
   rows.forEach(function(row) {
+    if (count > rows.length) { return; }
+
     var location = new Location({
       id: row.location_id,
       type: [],
@@ -199,11 +142,8 @@ connection.query('select * from location', function(err, rows) {
         }())
       ])
       .then(function(result) {
-        // console.log('finally', location);
         location.save(function(err) {
-          if (err) {
-            console.log('ERROR', err);
-          }
+          checkError(err);
         });
       });
 
@@ -217,6 +157,7 @@ connection.query('select * from location', function(err, rows) {
      */
 
     // console.log(sql.sql);
+    count++;
   });
   console.log('DONE');
 
