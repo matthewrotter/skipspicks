@@ -2,7 +2,7 @@
 
   angular.module('skipspicks', ['slideout']);
 
-  angular.module('skipspicks').run(['$rootScope', function($rootScope) {
+  angular.module('skipspicks').run(['$rootScope', '$menu', function($rootScope, $menu) {
 
     $rootScope.empty = function(value) {
       return _.isEmpty(value);
@@ -22,12 +22,11 @@
       }
     };
 
-  }]);
+    // for lack of a better place, window options for mobile web like orientation and scrolltop
+    window.addEventListener("orientationchange", function() {
+      $menu.switchOrientation(window.orientation);
+    }, false);
 
-  // for lack of a better place, window options for mobile web like orientation and scrolltop
-  window.addEventListener("orientationchange", function() {
-    // Announce the new orientation number
-    alert(window.orientation);
-  }, false);
+  }]);
 
 }());

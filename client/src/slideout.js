@@ -23,6 +23,16 @@ angular.module('slideout', [])
           } else {
             this.show();
           }
+        },
+        switchOrientation: function(degree) {
+          var menu = angular.element(document.querySelector('#context'));
+          if (degree === 0) {
+            menu.removeClass('landscape');
+            menu.addClass('portrait');
+          } else {
+            menu.removeClass('portrait');
+            menu.addClass('landscape');
+          }
         }
       };
 
