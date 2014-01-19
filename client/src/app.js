@@ -24,4 +24,10 @@
 
   }]);
 
+  // for lack of a better place, window options for mobile web like orientation and scrolltop
+  window.addEventListener("orientationchange", function() {
+    // Announce the new orientation number
+    alert(window.orientation);
+  }, false);
+
 }());

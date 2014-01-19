@@ -14,10 +14,10 @@ angular.module('slideout', [])
           var self = this;
           var menu = angular.element(document.querySelector('#context'));
           if (menu.hasClass('show')) {
-            function tend() {
+            var tend = function tend() {
               menu[0].removeEventListener('transitionend', tend);
               self.show();
-            }
+            };
             menu[0].addEventListener('transitionend', tend);
             this.hide();
           } else {
