@@ -1,0 +1,32 @@
+{
+  "name": "skipspicks",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "underscore": "~1.5.2",
+    "express": "~3.4.8",
+    "mongoose": "~3.8.4"
+  },
+  "readmeFilename": "README.md",
+  "description": "",
+  "main": "server.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "grunt-express-server": "~0.4.11",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt": "~0.4.2",
+    "grunt-contrib-jshint": "~0.8.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:matthewrotter/skipspicks.git"
+  },
+  "keywords": [],
+  "author": "Skip Rotter",
+  "license": "BSD"
+}

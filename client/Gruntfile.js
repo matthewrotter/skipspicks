@@ -9,20 +9,20 @@ module.exports = function(grunt) {
       },
       minlibs: {
         src: [
-          // 'vendor/jquery-2.0.3.min.js',
           'vendor/angular.min.js',
-          'vendor/slideout.js',
-          // 'vendor/bootstrap.min.js',
           'vendor/leaflet.min.js'
         ],
         dest: '<%= distdir %>/assets/js/vendor.min.js'
       },
       code: {
         src: [
+          'src/config.js',
           'src/app.js',
           'src/routes.js',
           'src/directives.js',
-          'src/controllers.js'
+          'src/services.js',
+          'src/controllers.js',
+          'src/slideout.js'
         ],
         dest: '<%= distdir %>/assets/js/code.js'
       }
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
     copy: {
       assets: {
         files: [
-          { dest: '<%= distdir %>/', src : '**', expand: true, cwd: 'www/' }
+          { dest: '<%= distdir %>/', src: '**', expand: true, cwd: 'www/' }
         ]
       }
     },
@@ -47,11 +47,20 @@ module.exports = function(grunt) {
     },
     jshint: {
       files: [
-        'Gruntfile.js', 
-        'src/**/*.js', 
+        'Gruntfile.js',
+        'src/**/*.js',
         'test/**/*.js'
-      ],
-      jshintrc: '.jshintrc'
+      ]
+    },
+    express: {
+      options: {
+        background: true
+      },
+      dev: {
+        options: {
+          script: 'dev-server.js'
+        }
+      }
     },
     watch: {
       scripts: {
@@ -71,11 +80,13 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-express-server');
+
 
   // NOTE: npm install phantomjs -g to work w/ PhantomJS
 
   grunt.registerTask('test', ['jshint']);
-  grunt.registerTask('work', ['watch']);
+  grunt.registerTask('work', ['jshint', 'build', 'express', 'watch']);
   grunt.registerTask('build', ['clean', 'concat', 'copy', 'uglify']);
   grunt.registerTask('default', ['work']);
 
