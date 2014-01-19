@@ -43,7 +43,7 @@ var Location = mongoose.model('Location', LocationSchema);
 // read; filter is a mongoose/mongo query pattern
 Location.read = function(filter, callback) {
   Location.find(filter)
-    .limit(10)
+    .limit(50)
     // .sort({updated: asc})
     .exec(function(err, result) {
       callback(err, result);

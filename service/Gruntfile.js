@@ -12,8 +12,7 @@ module.exports = function(grunt) {
       ],
       options: {
         laxcomma: true
-      },
-      jshintrc: '../.jshintrc'
+      }
     },
     express: {
       options: {
