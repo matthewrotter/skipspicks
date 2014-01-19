@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('skipspicks').controller('main', ['$scope', '$http', function($scope, $http) {
+  angular.module('skipspicks').controller('main', ['$scope', '$http', 'GeoService', function($scope, $http, GeoService) {
 
     var coords = [45.523728, -122.677988];
 
@@ -13,6 +13,12 @@
       maxZoom: 18
     }).addTo(map);
 
+    GeoService.locate(function(pos) {
+      var crd = pos.latlng,
+        coords = [crd.latitude, crd.longitude];
+
+      map.setView(coords, 15);
+    });
 
     // get locations
     $http.get('http://localhost:4001/api/v1/location')
@@ -23,7 +29,7 @@
           var marker = L.marker([loc.lat, loc.lng]).addTo(map),
             content = '<b>Name: ' + loc.name + '</b>'
             ;
-          marker.bindPopup(content).openPopup();
+          marker.bindPopup(content); // .openPopup();
         });
       })
       .error(function(err) {

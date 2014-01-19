@@ -9,6 +9,7 @@ module.exports = function(grunt) {
       },
       minlibs: {
         src: [
+          'vendor/underscore.min.js',
           'vendor/angular.min.js',
           'vendor/leaflet.min.js'
         ],
@@ -16,6 +17,7 @@ module.exports = function(grunt) {
       },
       code: {
         src: [
+          'src/lib.js',
           'src/config.js',
           'src/app.js',
           'src/routes.js',
