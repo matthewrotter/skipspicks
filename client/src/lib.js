@@ -190,10 +190,11 @@ var SkipsPicks = (function() {
         },
 
         timeToSeconds: function(time) {
+          var timeParts;
           if (time instanceof Date) {
-            var timeParts = [ time.getHours(), time.getMinutes(), time.getSeconds() ];
+            timeParts = [ time.getHours(), time.getMinutes(), time.getSeconds() ];
           } else {
-            var timeParts = time.split(':');
+            timeParts = time.split(':');
             if (timeParts.length != 3) {
               return null;
             }
@@ -331,7 +332,7 @@ var SkipsPicks = (function() {
 
             callback.call(null, data);
             return this;
-          }
+          };
         }
       };
     }

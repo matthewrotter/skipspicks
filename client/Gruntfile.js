@@ -52,7 +52,10 @@ module.exports = function(grunt) {
         'Gruntfile.js',
         'src/**/*.js',
         'test/**/*.js'
-      ]
+      ],
+      options: {
+        laxcomma: true
+      }
     },
     express: {
       options: {

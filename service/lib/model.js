@@ -7,7 +7,9 @@ var asc = 1,
   desc = -1;
 
 /*
- * BEER: for disabled, only update the disabled flag....
+ * TODO:
+ * - add disabled flag
+ * - move lat/lng to geolocation native
  */
 var LocationSchema = new mongoose.Schema({
   id: Number,
@@ -41,13 +43,18 @@ var Location = mongoose.model('Location', LocationSchema);
 /*-------- implement CRUD -------*/
 
 // read; filter is a mongoose/mongo query pattern
-Location.read = function(filter, callback) {
-  Location.find(filter)
-    .limit(50)
-    // .sort({updated: asc})
-    .exec(function(err, result) {
-      callback(err, result);
-    });
+Location.read = function(filter, options, callback) {
+  console.log('F', filter, options);
+  var query = Location.find(filter);
+
+  if (options.limit) {
+    query.limit(options.limit);
+  }
+
+  // .sort({updated: asc})
+  query.exec(function(err, result) {
+    callback(err, result);
+  });
 };
 
 

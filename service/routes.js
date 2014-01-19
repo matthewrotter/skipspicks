@@ -1,4 +1,5 @@
-var model = require('./lib/model'),
+var _ = require('underscore'),
+  model = require('./lib/model'),
   Location = model.Location,
   urlRoot = '/api/v1',
   locationPath = urlRoot + '/location';
@@ -6,13 +7,36 @@ var model = require('./lib/model'),
 exports = module.exports = function(app) {
 
   // Location
+  app.get(locationPath + '/geo/:swLatitude/:swLongitude/:neLatitude/:neLongitude', function(req, res, next) {
+    var query = {
+      'lat': {$gte: req.params.swLatitude, $lte: req.params.neLatitude},
+      'lng': {$gte: req.params.swLongitude, $lte: req.params.neLongitude}
+    };
+
+    Location.read(query, {limit: 50}, function(err, result) {
+      if (err) {
+        next(err);
+      }
+      res.json(result);
+    });
+  });
+
   app.get(locationPath + '/:id?', function(req, res, next) {
+    // BEER: move to header?
+    var options = {
+      limit: 50
+    };
+    if (req.query.limit) {
+      options.limit = req.query.limit;
+      delete req.query.limit;
+    }
+
     // req.query or req.body
     if (req.params.id) {
       req.query._id = req.params.id;
     }
 
-    Location.read(req.query, function(err, result) {
+    Location.read(req.query, options, function(err, result) {
       if (err) {
         next(err);
       }

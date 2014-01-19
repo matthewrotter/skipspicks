@@ -1,0 +1,32 @@
+<h1>{{ Location.name }}</h1>
+{{ Location.address }}<br>
+{{ Location.city }}, {{ Location.state }} {{ Location.postalCode }}
+
+<h4>Type</h4>
+<ul>
+  <li ng-repeat="type in Location.type">{{ type }}</li>
+</ul>
+
+<h4>Cuisine</h4>
+<ul>
+  <li ng-repeat="cuisine in Location.cuisine">{{ cuisine }}</li>
+</ul>
+{{ Location.ratings }}<br>
+{{ Location.details }}<br>
+{{ Location.reviews }}<br>
+
+Location.price: String,
+Location.name: String,
+Location.address: String,
+Location.city: String,
+Location.state: String,
+Location.postalCode: String,
+Location.hours: String,
+Location.phone: Number,
+Location.pick: Boolean,
+Location.lat: Number, // replace with native type?
+Location.lng: Number,
+Location.userId: Number,
+Location.url: String,
+Location.updated: { type: Date, default: Date.now },
+Location.created: Date

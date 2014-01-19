@@ -35,22 +35,25 @@ div#map {
 }
 
 
-#header {
+#context {
   position: absolute;
-  top: -20%;
-  width: 100%;
-  height: 20%;
+  right: 0;
+  height: 100%;
+  width: 40%;
   z-index: 10;
   background-color: #ffffff;
-  -webkit-transform: translateY(0);
-  transform: translateY(0);
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
+
+  padding: 10px;
+
+  -webkit-transform: translateX(100%);
+  transform: translateX(0);
+  -webkit-transition-duration: 0.1s;
+  transition-duration: 0.1s;
   overflow: scroll;
 }
-#header.show {
-  -webkit-transform: translateY(100%);
-  transform: translateY(100%);
+#context.show {
+  -webkit-transform: translateX(0);
+  transform: translateX(100%);
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
