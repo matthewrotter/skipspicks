@@ -11,7 +11,7 @@ module.exports = function(grunt) {
         src: [
           'vendor/underscore.min.js',
           'vendor/angular.min.js',
-          'vendor/angular-route.min.js',
+          // 'vendor/angular-route.min.js',
           'vendor/leaflet.min.js',
           'vendor/ng-tags-input.min.js'
         ],
@@ -22,7 +22,7 @@ module.exports = function(grunt) {
           'src/lib.js',
           'src/config.js',
           'src/app.js',
-          'src/routes.js',
+          // 'src/routes.js',
           'src/directives.js',
           'src/services.js',
           'src/controllers.js',

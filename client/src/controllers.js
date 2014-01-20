@@ -14,25 +14,29 @@
 
   }]);
 
-  angular.module('skipspicks').controller('SearchController', ['$scope', '$http', 'ConfigService', function($scope, $http, ConfigService) {
+  angular.module('skipspicks').controller('SearchController', ['$scope', '$http', 'Config', function($scope, $http, Config) {
     $scope.tags = ['restaurant', 'bar'];
     $scope.loadTags = function(query) {
       console.log('Q', query);
-      return $http.get('http://localhost:4001/api/v1/config');
+      return $http.get(Config.service.host + Config.service.endpoints.config);
     };
   }]);
 
-  angular.module('skipspicks').controller('main', ['$scope', '$rootScope', '$http', '$menu', 'GeoService', 'Config', function($scope, $rootScope, $http, $menu, GeoService, Config) {
+  angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', '$menu', 'GeoService', 'Config', function($scope, $rootScope, $http, $menu, GeoService, Config) {
 
-    var coords = [45.523728, -122.677988], // BEER: move to config
+    var coords = Config.geo.initial, // [45.523728, -122.677988]
       markers = [];
 
     L.Icon.Default.imagePath = 'assets/img/leaflet';
 
-    var map = L.map('map').setView(coords, 13);
+    var map = L.map('map', {
+      zoomControl: false
+    }).setView(coords, 13);
+
+    map.addControl(L.control.zoom({position: 'bottomleft'}));
 
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+      // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
       maxZoom: 18
     }).addTo(map);
 
