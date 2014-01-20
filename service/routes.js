@@ -8,7 +8,11 @@ var _ = require('underscore'),
 
 exports = module.exports = function(app) {
 
-  // Location
+  /*
+   * Locaton
+   */
+
+  // search by geo
   app.get(locationPath + '/geo/:swLatitude/:swLongitude/:neLatitude/:neLongitude', function(req, res, next) {
     var query = {
       'lat': {$gte: req.params.swLatitude, $lte: req.params.neLatitude},
@@ -23,6 +27,20 @@ exports = module.exports = function(app) {
     });
   });
 
+  // filter by attribute lists
+  app.post(locationPath + '/filter', function(req, res, next) {
+    var query = {cuisine: {$in: req.body}};
+    console.log('ASD', query);
+
+    Location.read(query, {limit: 50 /*, projection: {cuisine: 1} */}, function(err, result) {
+      if (err) {
+        next(err);
+      }
+      res.json(result);
+    });
+  });
+
+  // CRUD
   app.get(locationPath + '/:id?', function(req, res, next) {
     // BEER: move to header?
     var options = {
@@ -75,7 +93,9 @@ exports = module.exports = function(app) {
   });
 
 
-  // Config
+  /*
+   * Config
+   */
   app.get(configPath, function(req, res, next) {
     Config.read({}, function(err, result) {
       if (err) {
@@ -96,4 +116,3 @@ exports = module.exports = function(app) {
   });
 
 };
-

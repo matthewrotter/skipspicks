@@ -46,7 +46,11 @@ var Location = mongoose.model('Location', LocationSchema);
 // read; filter is a mongoose/mongo query pattern
 Location.read = function(filter, options, callback) {
   console.log('F', filter, options);
-  var query = Location.find(filter);
+  var projection = {};
+  if (options.projection) {
+    _.extend(projection, options.projection);
+  }
+  var query = Location.find(filter, projection);
 
   if (options.limit) {
     query.limit(options.limit);
@@ -147,14 +151,9 @@ var ConfigSchema = new mongoose.Schema({
 var Config = mongoose.model('Config', ConfigSchema);
 
 Config.read = function(filter, callback) {
-  callback(null, ['we', 'week', 'weekend']);
-  return;
-
-/*
   Config.find(filter, function(err, result) {
     callback(err, result[0]);
   });
-*/
 };
 
 

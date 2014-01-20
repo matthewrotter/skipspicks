@@ -16,31 +16,13 @@ div#map {
   z-index: 0;
 }
 
-.floatButton {
-  -webkit-user-select: none; /* Chrome/Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+ */
-  -o-user-select: none;
-  user-select: none;
-  cursor: pointer;
-  border: 1px solid #808080;
+#searchbox {
+  position: relative;
+  top: 10px;
   z-index: 15;
-  background: #ffffff;
-  padding: 5px;
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
-}
-
-#toggle {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-#searchButton {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 #context.landscape {

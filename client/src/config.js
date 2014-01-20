@@ -15,6 +15,7 @@
             host: 'http://10.0.1.210:4001',
             endpoints: {
               location: '/api/v1/location',
+              locationFilter: '/api/v1/location/filter',
               locationsByGeo: '/api/v1/location/geo',
               config: '/api/v1/config'
             }

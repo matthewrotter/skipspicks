@@ -13,24 +13,22 @@
 <body>
 
 
-<div id="context" class="portrait">
-  <div ng-include="templateUrl"></div>
-</div>
-
-
 <div ng-controller="MainController">
   <div id="map"></div>
 </div>
 
 
-<div ng-controller="FloatController">
-  <div id="searchButton" class="floatButton" ng-click="showSearch()">
-    SEARCH
-  </div>
-  <div id="toggle" class="floatButton" ng-click="$menu.toggle()">
-    MENU
-  </div>
+<div id="searchbox" ng-controller="SearchController">
+  <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="search()">
+    <auto-complete source="loadTags($query)"></auto-complete>
+  </tags-input>
 </div>
+
+
+<div id="context" class="portrait">
+  <div ng-include="templateUrl"></div>
+</div>
+
 
 <script src="assets/js/vendor.min.js"></script>
 <script src="assets/js/code.js"></script>
