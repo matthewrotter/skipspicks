@@ -41,7 +41,7 @@
 
       map.on('moveend', function(distance) {
         markers.forEach(function(m) {
-          map.removeLayer(m);
+          // map.removeLayer(m);
         });
         markers = [];
 
