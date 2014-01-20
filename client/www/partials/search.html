@@ -1,5 +1,14 @@
 SEARCH
+<div ng-controller="SearchController">
+  <tags-input ng-model="tags" placeholder="Filter locations">
+    <auto-complete source="loadTags($query)"></auto-complete>
+  </tags-input>
 
-<span ng-repeat="cuisine in Config.cuisines">
-  <a href="" ng-click="filterBy()">{{ cuisine }}</a>{{ {true: '', false: ', '}[$last] }}
-</span>
+  <span ng-repeat="cuisine in Config.cuisines">
+    <a href="" ng-click="filterBy()">{{ cuisine }}</a>{{ {true: '', false: ', '}[$last] }}
+  </span>
+
+  <div class="location-summary" ng-repeat="location in locations | limitTo: 10">
+    {{ location.name }}
+  </div>
+</div>

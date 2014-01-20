@@ -147,9 +147,14 @@ var ConfigSchema = new mongoose.Schema({
 var Config = mongoose.model('Config', ConfigSchema);
 
 Config.read = function(filter, callback) {
+  callback(null, ['we', 'week', 'weekend']);
+  return;
+
+/*
   Config.find(filter, function(err, result) {
     callback(err, result[0]);
   });
+*/
 };
 
 

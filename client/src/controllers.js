@@ -14,6 +14,14 @@
 
   }]);
 
+  angular.module('skipspicks').controller('SearchController', ['$scope', '$http', 'ConfigService', function($scope, $http, ConfigService) {
+    $scope.tags = ['restaurant', 'bar'];
+    $scope.loadTags = function(query) {
+      console.log('Q', query);
+      return $http.get('http://localhost:4001/api/v1/config');
+    };
+  }]);
+
   angular.module('skipspicks').controller('main', ['$scope', '$rootScope', '$http', '$menu', 'GeoService', 'Config', function($scope, $rootScope, $http, $menu, GeoService, Config) {
 
     var coords = [45.523728, -122.677988], // BEER: move to config
@@ -52,6 +60,7 @@
         $http.get(Config.service.host + Config.service.endpoints.locationsByGeo + '/' + path)
           .success(function(result) {
             console.log('R', result.length);
+            $rootScope.locations = result;
 
             result.forEach(function(loc) {
               // BEER: DRY this out, both marker and success/error and error-check

@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('skipspicks', ['slideout']);
+  angular.module('skipspicks', ['ngRoute', 'slideout', 'ngTagsInput']);
 
   angular.module('skipspicks').run(['$rootScope', '$menu', function($rootScope, $menu) {
 
