@@ -15,7 +15,8 @@
             host: 'http://localhost:4001',
             endpoints: {
               location: '/api/v1/location',
-              locationsByGeo: '/api/v1/location/geo'
+              locationsByGeo: '/api/v1/location/geo',
+              config: '/api/v1/config'
             }
           },
           api: {

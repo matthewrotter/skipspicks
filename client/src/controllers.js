@@ -1,5 +1,19 @@
 (function() {
 
+  angular.module('skipspicks').controller('FloatController', ['$scope', '$rootScope', '$menu', 'ConfigService', function($scope, $rootScope, $menu, ConfigService) {
+    ConfigService.async().then(function(d) {
+      $rootScope.Config = d;
+    });
+
+    $scope.showSearch = function() {
+      console.log('CC', $scope.Config);
+
+      $rootScope.templateUrl = 'partials/search.html';
+      $menu.show();
+    };
+
+  }]);
+
   angular.module('skipspicks').controller('main', ['$scope', '$rootScope', '$http', '$menu', 'GeoService', 'Config', function($scope, $rootScope, $http, $menu, GeoService, Config) {
 
     var coords = [45.523728, -122.677988], // BEER: move to config
@@ -47,6 +61,8 @@
               markers.push(marker);
               marker.bindPopup(content); // .openPopup();
               marker.on('click', function() {
+                $rootScope.templateUrl = 'partials/location-detail.html';
+
                 $rootScope.Location = loc;
                 $menu.swap();
                 $rootScope.$apply();
@@ -76,7 +92,6 @@
 
       });
 
-    $rootScope.templateUrl = 'partials/location-detail.html';
 
   }]);
 

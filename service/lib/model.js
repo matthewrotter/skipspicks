@@ -6,6 +6,7 @@ var mongoose = require('mongoose'),
 var asc = 1,
   desc = -1;
 
+
 /*
  * TODO:
  * - add disabled flag
@@ -134,8 +135,27 @@ Location.delete = function(_id, callback) {
 };
 
 
+// Config
+var ConfigSchema = new mongoose.Schema({
+  details: [],
+  cuisines: [],
+  ratings: [],
+  types: [],
+  prices: []
+});
+
+var Config = mongoose.model('Config', ConfigSchema);
+
+Config.read = function(filter, callback) {
+  Config.find(filter, function(err, result) {
+    callback(err, result[0]);
+  });
+};
+
+
 // exports
 exports.Location = Location;
+exports.Config = Config;
 
 var uri = config.mongo;
 if (!conn) {

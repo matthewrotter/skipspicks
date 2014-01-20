@@ -23,7 +23,13 @@
     };
 
     // for lack of a better place, window options for mobile web like orientation and scrolltop
+    if (window.innerWidth > window.innerHeight) {
+      $menu.switchOrientation(90);
+    }
     window.addEventListener("orientationchange", function() {
+      $menu.switchOrientation(window.orientation);
+    }, false);
+    window.addEventListener("resize", function() {
       $menu.switchOrientation(window.orientation);
     }, false);
 

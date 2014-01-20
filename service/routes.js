@@ -1,8 +1,10 @@
 var _ = require('underscore'),
   model = require('./lib/model'),
   Location = model.Location,
+  Config = model.Config,
   urlRoot = '/api/v1',
-  locationPath = urlRoot + '/location';
+  locationPath = urlRoot + '/location',
+  configPath = urlRoot + '/config';
 
 exports = module.exports = function(app) {
 
@@ -69,6 +71,17 @@ exports = module.exports = function(app) {
         next(err);
       }
       res.json({_id: req.params.id});
+    });
+  });
+
+
+  // Config
+  app.get(configPath, function(req, res, next) {
+    Config.read({}, function(err, result) {
+      if (err) {
+        next(err);
+      }
+      res.json(result);
     });
   });
 

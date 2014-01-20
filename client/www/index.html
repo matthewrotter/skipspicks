@@ -20,10 +20,14 @@
 <div id="view" ng-view></div>
 
 
-<div id="toggle" ng-click="$menu.toggle()">
-  MENU
+<div ng-controller="FloatController">
+  <div id="searchButton" class="floatButton" ng-click="showSearch()">
+    SEARCH
+  </div>
+  <div id="toggle" class="floatButton" ng-click="$menu.toggle()">
+    MENU
+  </div>
 </div>
-
 
 <script src="assets/js/vendor.min.js"></script>
 <script src="assets/js/code.js"></script>

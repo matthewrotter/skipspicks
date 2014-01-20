@@ -15,6 +15,8 @@ ToDo:
 - hanlde 300ms delay!-
 - move context menu based on orientation 
 - optimize location grabbing 
-- empty tray on close? or at Lear scroll up 
+- empty tray on close? or at Lear scroll up
+- CACHE Config from mongo, on server and/or in client
+- Add indexes
 
 
