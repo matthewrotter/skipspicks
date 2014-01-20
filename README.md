@@ -6,6 +6,7 @@ Skip's Picks v.3
 
 ToDo:
 
+- Add Location creation/update/review UI
 - menu slide from right to left
   - move map and center when menu slides out
 - add search
