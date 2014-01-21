@@ -1,5 +1,21 @@
 (function() {
 
+  angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', 'ContextService', 'Config', function($scope, $rootScope, ContextService, Config) {
+    $rootScope.showEditor = function() {
+      $rootScope.templateUrl = 'partials/editor.html';
+      ContextService.full();
+    };
+    $rootScope.hideEditor = function() {
+      ContextService.hide();
+    };
+
+    $rootScope.showSettings = function() {
+      $rootScope.templateUrl = 'partials/settings.html';
+      ContextService.show();
+    };
+  }]);
+
+
   angular.module('skipspicks').controller('SearchController', ['$scope', '$http', '$q', 'MapService', 'ConfigService', 'Config', function($scope, $http, $q, MapService, ConfigService, Config) {
     var config = ['restaurant', 'bar'];
 
@@ -36,7 +52,7 @@
 
   }]);
 
-  angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', '$menu', 'MapService', 'GeoService', 'Config', function($scope, $rootScope, $http, $menu, MapService, GeoService, Config) {
+  angular.module('skipspicks').controller('MapController', ['$scope', '$rootScope', '$http', 'ContextService', 'MapService', 'GeoService', 'Config', function($scope, $rootScope, $http, ContextService, MapService, GeoService, Config) {
     var map = MapService.map;
 
     // move to user's location
@@ -47,7 +63,7 @@
       map.setView(coords, 15);
 
       map.on('focus dragstart click', function() {
-        $menu.hide();
+        ContextService.hide();
       });
 
       map.on('moveend', function(distance) {

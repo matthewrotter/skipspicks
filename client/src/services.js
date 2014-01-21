@@ -4,7 +4,10 @@
 
     .constant('Config', SkipsPicks.inject('Config'))
 
-    .factory('MapService', ['Config', function(Config) {
+    .factory('MapService', ['$rootScope', 'ContextService', 'Config', function($rootScope, ContextService, Config) {
+      $rootScope.getDetail = function(loc) {
+        console.log('GETD', loc);
+      };
 
       var coords = Config.geo.initial, // [45.523728, -122.677988]
         markers = [],
@@ -31,18 +34,17 @@
             locations.forEach(function(loc) {
               // BEER: DRY this out, both marker and success/error and error-check
               var marker = L.marker([loc.lat, loc.lng]).addTo(self.map),
-                content = '<b><a href="" ng-click="getDetail(loc)">Name: ' + loc.name + '</a></b>'
+                content = '<b>' + loc.name + '</b>'
                 ;
               markers.push(marker);
               marker.bindPopup(content); // .openPopup();
               marker.on('click', function() {
-                /*
-                 $rootScope.templateUrl = 'partials/location-detail.html';
+                $rootScope.templateUrl = 'partials/location-detail.html';
 
-                 $rootScope.Location = loc;
-                 $menu.swap();
-                 $rootScope.$apply();
-                 */
+                $rootScope.Location = loc;
+                ContextService.swap();
+
+                $rootScope.$apply();
               });
             });
           },
@@ -58,6 +60,60 @@
       service.init();
 
       return service;
+    }])
+
+    .factory('ContextService', [function() {
+      var menu = {
+        // BEER: I'm sure this is super jank
+        swap: function swap() {
+          var self = this;
+          var menu = angular.element(document.querySelector('#context'));
+          if (menu.hasClass('show')) {
+            var tend = function tend() {
+              menu[0].removeEventListener('transitionend', tend);
+              self.show();
+            };
+            menu[0].addEventListener('transitionend', tend);
+            this.hide();
+          } else {
+            this.show();
+          }
+        },
+        switchOrientation: function(degree) {
+          var menu = angular.element(document.querySelector('#context'));
+          if (degree === 0) {
+            menu.removeClass('landscape');
+            menu.addClass('portrait');
+          } else {
+            menu.removeClass('portrait');
+            menu.addClass('landscape');
+          }
+        }
+      };
+
+      menu.full = function full() {
+        var menu = angular.element(document.querySelector('#context'));
+        menu.addClass('full');
+      };
+
+      menu.show = function show() {
+        var menu = angular.element(document.querySelector('#context'));
+        menu.addClass('show');
+      };
+
+      menu.hide = function hide() {
+        var menu = angular.element(document.querySelector('#context'));
+        menu.removeClass('show');
+        menu.removeClass('full');
+      };
+
+      menu.toggle = function toggle() {
+        var menu = angular.element(document.querySelector('#context'));
+        menu.toggleClass('show');
+      };
+
+      return menu;
+
     }])
 
     .factory('ConfigService', ['$http', 'Config', function($http, Config) {

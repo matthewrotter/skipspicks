@@ -1,8 +1,8 @@
 (function() {
 
-  angular.module('skipspicks', ['slideout', 'ngTagsInput']);
+  angular.module('skipspicks', ['ngTagsInput']);
 
-  angular.module('skipspicks').run(['$rootScope', '$menu', function($rootScope, $menu) {
+  angular.module('skipspicks').run(['$rootScope', 'ContextService', function($rootScope, ContextService) {
 
     $rootScope.empty = function(value) {
       return _.isEmpty(value);
@@ -24,13 +24,13 @@
 
     // for lack of a better place, window options for mobile web like orientation and scrolltop
     if (window.innerWidth > window.innerHeight) {
-      $menu.switchOrientation(90);
+      ContextService.switchOrientation(90);
     }
     window.addEventListener("orientationchange", function() {
-      $menu.switchOrientation(window.orientation);
+      ContextService.switchOrientation(window.orientation);
     }, false);
     window.addEventListener("resize", function() {
-      $menu.switchOrientation(window.orientation);
+      ContextService.switchOrientation(window.orientation);
     }, false);
 
   }]);

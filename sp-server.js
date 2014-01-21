@@ -7,7 +7,7 @@ var express = require('express'),
 var app = express();
 
 // add our config
-app.config = require('./config');
+app.config = require('./service/config');
 
 //config all
 app.configure(function() {
@@ -15,6 +15,8 @@ app.configure(function() {
   app.disable('x-powered-by');
   app.set('port', 4001);
   app.set('strict routing', true);
+
+  app.use('/', express.static(path.join(__dirname, 'client/dist')));
 
   //middleware
   app.use(express.logger('dev'));
@@ -48,7 +50,7 @@ app.configure(function() {
 });
 
 //route requests
-require('./routes')(app);
+require('./service/routes')(app);
 
 //create server
 var server = http.createServer(app);

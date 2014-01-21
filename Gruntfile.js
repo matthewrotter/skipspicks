@@ -1,7 +1,9 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-    distdir: 'dist',
+    clientdir: 'client',
+    servicedir: 'service',
+    distdir: '<%= clientdir %>/dist',
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
@@ -9,24 +11,24 @@ module.exports = function(grunt) {
       },
       minlibs: {
         src: [
-          'vendor/underscore.min.js',
-          'vendor/angular.min.js',
-          // 'vendor/angular-route.min.js',
-          'vendor/leaflet.min.js',
-          'vendor/ng-tags-input.min.js'
+          '<%= clientdir %>/vendor/underscore.min.js',
+          '<%= clientdir %>/vendor/angular.min.js',
+          // '<%= clientdir %>/vendor/angular-route.min.js',
+          '<%= clientdir %>/vendor/leaflet.min.js',
+          '<%= clientdir %>/vendor/ng-tags-input.min.js'
         ],
         dest: '<%= distdir %>/assets/js/vendor.min.js'
       },
       code: {
         src: [
-          'src/lib.js',
-          'src/config.js',
-          'src/app.js',
-          // 'src/routes.js',
-          'src/directives.js',
-          'src/services.js',
-          'src/controllers.js',
-          'src/slideout.js'
+          '<%= clientdir %>/src/lib.js',
+          '<%= clientdir %>/src/config.js',
+          '<%= clientdir %>/src/app.js',
+          // '<%= clientdir %>/src/routes.js',
+          '<%= clientdir %>/src/directives.js',
+          '<%= clientdir %>/src/services.js',
+          '<%= clientdir %>/src/controllers.js',
+          '<%= clientdir %>/src/slideout.js'
         ],
         dest: '<%= distdir %>/assets/js/code.js'
       }
@@ -35,7 +37,7 @@ module.exports = function(grunt) {
     copy: {
       assets: {
         files: [
-          { dest: '<%= distdir %>/', src: '**', expand: true, cwd: 'www/' }
+          { dest: '<%= distdir %>/', src: '**', expand: true, cwd: '<%= clientdir %>/www/' }
         ]
       }
     },
@@ -52,8 +54,9 @@ module.exports = function(grunt) {
     jshint: {
       files: [
         'Gruntfile.js',
-        'src/**/*.js',
-        'test/**/*.js'
+        '<%= clientdir %>/src/**/*.js',
+        '<%= servicedir %>/**/*.js',
+        '*/test/**/*.js'
       ],
       options: {
         laxcomma: true
@@ -65,17 +68,24 @@ module.exports = function(grunt) {
       },
       dev: {
         options: {
-          script: 'dev-server.js'
+          script: 'sp-server.js'
         }
       }
     },
     watch: {
       scripts: {
-        files: ['<%= jshint.files %>'],
+        files: ['<%= jshint.files %>', '!<%= servicedir %>'],
         tasks: ['concat', 'uglify']
       },
+      express: {
+      files: ['<%= servicedir %>/**/*.js'],
+        tasks: ['express:dev'],
+        options: {
+          spawn: false
+        }
+      },
       html: {
-        files: ['www/**/*.html', 'www/**/*.css'],
+        files: ['<%= clientdir %>/www/**/*.html', '<%= clientdir %>/www/**/*.css'],
         tasks: ['copy']
       }
     }

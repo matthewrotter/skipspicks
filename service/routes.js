@@ -29,7 +29,12 @@ exports = module.exports = function(app) {
 
   // filter by attribute lists
   app.post(locationPath + '/filter', function(req, res, next) {
-    var query = {cuisine: {$in: req.body}};
+    var query = {
+      $or: [
+        {cuisine: {$in: req.body}},
+        {type: {$in: req.body}}
+      ]
+    };
     console.log('ASD', query);
 
     Location.read(query, {limit: 50 /*, projection: {cuisine: 1} */}, function(err, result) {
@@ -39,6 +44,25 @@ exports = module.exports = function(app) {
       res.json(result);
     });
   });
+
+  // import location data
+  app.get(locationPath + '/import', function(req, res, next) {
+    var locs = require('./lib/location');
+
+    locs.forEach(function(loc) {
+      delete loc._id;
+
+      massageSpecialTypes(loc);
+
+      Location.create(loc, function(err) {
+        if (err) {
+          console.log('E?', err);
+        }
+      });
+    });
+    res.json({ok: true});
+  });
+
 
   // CRUD
   app.get(locationPath + '/:id?', function(req, res, next) {
@@ -105,6 +129,18 @@ exports = module.exports = function(app) {
     });
   });
 
+  // import
+  app.get(configPath + '/import', function(req, res, next) {
+    var config = require('./lib/config');
+
+    Config.create(config, function(err) {
+      if (err) {
+        console.log('E?', err);
+      }
+    });
+    res.json({ok: true});
+  });
+
 
   // route not found
   app.all('*', function(req, res) {
@@ -116,3 +152,14 @@ exports = module.exports = function(app) {
   });
 
 };
+
+
+// helpers
+// massage special types eg $date; this should be functioniszed
+function massageSpecialTypes(obj) {
+  obj.created = obj.created && obj.created.$date;
+  obj.updated = obj.updated && obj.updated.$date;
+  obj.reviews.forEach(function(rev) {
+    rev.updated = rev.updated && rev.updated.$date;
+  });
+}
