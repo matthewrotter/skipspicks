@@ -19,5 +19,8 @@ ToDo:
 - empty tray on close? or at Lear scroll up
 - CACHE Config from mongo, on server and/or in client
 - Add indexes
-
+- replace pins with vectoricons
+- make bigger on click
+- don't use popup use context box 
+- 
 
