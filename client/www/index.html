@@ -19,7 +19,7 @@
 
 
 <div id="searchbox" ng-controller="SearchController">
-  <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="search()">
+  <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="search()" on-tag-removed="search()">
     <auto-complete source="loadTags($query)"></auto-complete>
   </tags-input>
 </div>
@@ -31,7 +31,7 @@
 
 
 <div id="context" class="portrait">
-  <div ng-include="templateUrl"></div>
+  <div class="container" ng-include="templateUrl"></div>
 </div>
 
 

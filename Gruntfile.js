@@ -75,7 +75,7 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ['<%= jshint.files %>', '!<%= servicedir %>'],
-        tasks: ['concat', 'uglify']
+        tasks: ['jshint', 'concat', 'uglify']
       },
       express: {
       files: ['<%= servicedir %>/**/*.js'],

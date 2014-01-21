@@ -22,6 +22,7 @@
       }
     };
 
+/*
     // for lack of a better place, window options for mobile web like orientation and scrolltop
     if (window.innerWidth > window.innerHeight) {
       ContextService.switchOrientation(90);
@@ -32,6 +33,7 @@
     window.addEventListener("resize", function() {
       ContextService.switchOrientation(window.orientation);
     }, false);
+*/
 
   }]);
 

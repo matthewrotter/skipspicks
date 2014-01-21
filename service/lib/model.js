@@ -26,10 +26,21 @@ var LocationSchema = new mongoose.Schema({
   postalCode: String,
   hours: String,
   phone: Number,
-  reviews: [],
+  reviews: [
+    {
+      // id: Number,
+      body: String,
+      rating: Number,
+      updated: Date,
+      userId: {
+        type: Number,
+        default: 43
+      }
+    }
+  ],
   pick: Boolean,
   lat: Number, // replace with native type?
-  lng: Number,
+  lng: Number, // geocode
   userId: Number,
   url: String,
   updated: { type: Date, default: Date.now },
@@ -83,7 +94,7 @@ Location.create = function(location, callback) {
     pick: location.pick,
     lat: location.lat,
     lng: location.lng,
-    userId: location.userId,
+    userId: 43, // location.userId,
     url: location.url,
     updated: Date.now(),
     created: Date.now()
@@ -120,7 +131,7 @@ Location.update = function(location, callback) {
       pick: location.pick,
       lat: location.lat,
       lng: location.lng,
-      userId: location.userId,
+      userId: 43, // location.userId,
       url: location.url,
       updated: Date.now(),
       created: location.created

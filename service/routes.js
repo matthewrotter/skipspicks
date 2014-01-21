@@ -47,7 +47,7 @@ exports = module.exports = function(app) {
 
   // import location data
   app.get(locationPath + '/import', function(req, res, next) {
-    var locs = require('./lib/location');
+    var locs = require('./lib/import/location');
 
     locs.forEach(function(loc) {
       delete loc._id;
@@ -131,7 +131,7 @@ exports = module.exports = function(app) {
 
   // import
   app.get(configPath + '/import', function(req, res, next) {
-    var config = require('./lib/config');
+    var config = require('./lib/import/config');
 
     Config.create(config, function(err) {
       if (err) {
