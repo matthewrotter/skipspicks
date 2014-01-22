@@ -25,3 +25,9 @@ ToDo:
 - Editor
   - select location by map
   - geocode by name and give options
+
+- marker icons
+- handle map scroll
+- context service
+- generify for other layers, like footprint
+

@@ -47,6 +47,8 @@ var LocationSchema = new mongoose.Schema({
   created: Date
 });
 
+LocationSchema.index({lat: asc, lng: asc});
+
 var Location = mongoose.model('Location', LocationSchema);
 // mongoose.Types.ObjectId
 // mongoose.Schema.Types.ObjectId;

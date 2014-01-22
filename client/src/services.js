@@ -11,6 +11,7 @@
 
       var coords = Config.geo.initial, // [45.523728, -122.677988]
         markers = [],
+        activePin = {},
         service = {
           init: function() {
             L.Icon.Default.imagePath = 'assets/img/leaflet';
@@ -31,16 +32,45 @@
 
             this.clearMarkers();
 
+            var barIcon = L.icon({
+                iconUrl: 'assets/img/bar-24.png',
+                // iconRetinaUrl: 'my-icon@2x.png',
+                iconSize: [24, 24],
+                iconAnchor: [12, 24],
+                popupAnchor: [-3, -3]
+                // shadowUrl: 'my-icon-shadow.png',
+                // shadowRetinaUrl: 'my-icon-shadow@2x.png',
+                // shadowSize: [68, 95],
+                // shadowAnchor: [22, 94]
+              }),
+              restaurantIcon = L.icon({
+                iconUrl: 'assets/img/restaurant-24.png',
+                iconSize: [24, 24],
+                iconAnchor: [12, 24],
+                popupAnchor: [0, -24]
+              });
+
             locations.forEach(function(loc) {
+              var ratings = _.pluck(loc.reviews, 'rating'),
+                avg = ratings.length && Math.round((ratings.reduce(function(a, b) {
+                  return a + b;
+                }) / ratings.length) * 10) / 10;
+
               // BEER: DRY this out, both marker and success/error and error-check
-              var marker = L.marker([loc.lat, loc.lng]).addTo(self.map),
+              var marker = L.marker([loc.lat, loc.lng], {icon: _.contains(loc.type, 'Bar') ? barIcon : restaurantIcon}).addTo(self.map),
                 content = '<b>' + loc.name + '</b>'
                 ;
               markers.push(marker);
-              marker.bindPopup(content); // .openPopup();
+              // marker.bindPopup(content); // .openPopup();
               marker.on('click', function() {
+                if (self.activePin) {
+                  self.map.removeLayer(self.activePin);
+                }
+                self.activePin = L.marker([loc.lat, loc.lng]).addTo(self.map);
+
                 $rootScope.templateUrl = 'partials/location-detail.html';
 
+                loc.ratingAverage = avg;
                 $rootScope.Location = loc;
                 ContextService.swap();
 
@@ -54,6 +84,10 @@
               self.map.removeLayer(m); // BEER: improve
             });
             markers = [];
+
+            if (self.activePin) {
+              self.map.removeLayer(self.activePin);
+            }
           }
         };
 

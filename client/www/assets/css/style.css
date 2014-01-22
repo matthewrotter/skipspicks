@@ -6,9 +6,10 @@ body {
 body, html, div#map {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
-h1.title {
+.title {
   margin-top: 0px;
 }
 
@@ -85,7 +86,7 @@ div#map {
   transform: translateY(0);
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 #context.portrait.full {

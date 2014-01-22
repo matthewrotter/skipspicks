@@ -78,7 +78,7 @@ module.exports = function(grunt) {
         tasks: ['jshint', 'concat', 'uglify']
       },
       express: {
-      files: ['<%= servicedir %>/**/*.js'],
+      files: ['sp-server.js', '<%= servicedir %>/**/*.js'],
         tasks: ['express:dev'],
         options: {
           spawn: false

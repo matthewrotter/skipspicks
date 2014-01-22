@@ -117,10 +117,12 @@
       });
 
       map.on('moveend', function(distance) {
+        console.log('D', distance);
         var bounds = map.getBounds(),
           set = [bounds._southWest.lat, bounds._southWest.lng, bounds._northEast.lat, bounds._northEast.lng],
           path = set.join('/');
 
+        // BEER: create LocationService
         $http.get(Config.service.host + Config.service.endpoints.locationsByGeo + '/' + path)
           .success(function(result) {
             // $rootScope.locations = result;

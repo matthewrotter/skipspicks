@@ -1,6 +1,22 @@
-<h1 class="title">{{ Location.name }}</h1>
-{{ Location.address }}<br>
-{{ Location.city }}, {{ Location.state }} {{ Location.postalCode }}
+<div class="row">
+  <div class="col-xs-12 col-md-12">
+    <h1 class="title">{{ Location.name }}</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-3 col-md-3">
+    <h2 class="title">{{ Location.ratingAverage }}/5</h2>
+  </div>
+  <div class="col-xs-3 col-md-3">
+    {{ Location.reviews.length }} Review(s)
+  </div>
+  <div class="col-xs-3 col-md-3">
+    {{ Location.price }}
+  </div>
+</div>
+
+<!--
 
 <h4>Type</h4>
 <ul>
@@ -11,6 +27,11 @@
 <ul>
   <li ng-repeat="cuisine in Location.cuisine">{{ cuisine }}</li>
 </ul>
+
+
+{{ Location.address }}<br>
+{{ Location.city }}, {{ Location.state }} {{ Location.postalCode }}
+
 {{ Location.ratings }}<br>
 {{ Location.details }}<br>
 {{ Location.reviews }}<br>
@@ -30,3 +51,4 @@ Location.userId: Number,
 Location.url: String,
 Location.updated: { type: Date, default: Date.now },
 Location.created: Date
+ -->
