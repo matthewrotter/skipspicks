@@ -3,7 +3,6 @@ skipspicks
 
 Skip's Picks v.3
 
-
 ToDo:
 
 - Add Location creation/update/review UI
@@ -24,3 +23,20 @@ ToDo:
 - don't use popup use context box 
 - 
 
+        replace: {
+          servers: {
+            src: ['../clients/*/dist/assets/js/code*'],
+            overwrite: true,
+            replacements: [
+              {
+                from: /(SERVICE_HOST.?\*\/.?['"])([^']+)/g,
+                to: '$1<%= pkg.globesherpa.serviceHost %>'
+              }
+           ]
+         }
+       }
+     });
+
+    grunt.loadNpmTasks('grunt-text-replace');
+    
+back
