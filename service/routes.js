@@ -19,7 +19,7 @@ exports = module.exports = function(app) {
       'lng': {$gte: req.params.swLongitude, $lte: req.params.neLongitude}
     };
 
-    Location.read(query, {limit: 50}, function(err, result) {
+    Location.extension.read(query, {limit: 50}, function(err, result) {
       if (err) {
         next(err);
       }
@@ -37,7 +37,7 @@ exports = module.exports = function(app) {
     };
     console.log('ASD', query);
 
-    Location.read(query, {limit: 50 /*, projection: {cuisine: 1} */}, function(err, result) {
+    Location.extension.read(query, {limit: 50 /*, projection: {cuisine: 1} */}, function(err, result) {
       if (err) {
         next(err);
       }
@@ -54,13 +54,19 @@ exports = module.exports = function(app) {
 
       massageSpecialTypes(loc);
 
-      Location.create(loc, function(err) {
+      Location.extension.create(loc, function(err) {
         if (err) {
           console.log('E?', err);
         }
       });
     });
     res.json({ok: true});
+  });
+
+  app.post(locationPath + '/:id/review', function(req, res, next) {
+    Location.extension.addReview(req.params.id, null, function(err) {
+      res.json({err: err});
+    });
   });
 
 
@@ -80,7 +86,7 @@ exports = module.exports = function(app) {
       req.query._id = req.params.id;
     }
 
-    Location.read(req.query, options, function(err, result) {
+    Location.extension.read(req.query, options, function(err, result) {
       if (err) {
         next(err);
       }
@@ -90,7 +96,7 @@ exports = module.exports = function(app) {
 
   app.post(locationPath, function(req, res, next) {
     console.log(req.body);
-    Location.update(req.body, function(err, result) {
+    Location.extension.update(req.body, function(err, result) {
       if (err) {
         return next(err);
       }
@@ -99,7 +105,7 @@ exports = module.exports = function(app) {
   });
 
   app.put(locationPath, function(req, res, next) {
-    Location.create(req.body, function(err, result) {
+    Location.extension.create(req.body, function(err, result) {
       if (err) {
         next(err);
       }
@@ -108,7 +114,7 @@ exports = module.exports = function(app) {
   });
 
   app.delete(locationPath + '/:id', function(req, res, next) {
-    Location.delete(req.params.id, function(err, result) {
+    Location.extension.delete(req.params.id, function(err, result) {
       if (err) {
         next(err);
       }

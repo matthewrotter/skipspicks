@@ -53,11 +53,14 @@ var Location = mongoose.model('Location', LocationSchema);
 // mongoose.Types.ObjectId
 // mongoose.Schema.Types.ObjectId;
 
+// Add our extension to singleton-y Location to not collide w/ existing methods
+Location.extension = {};
+
 
 /*-------- implement CRUD -------*/
 
 // read; filter is a mongoose/mongo query pattern
-Location.read = function(filter, options, callback) {
+Location.extension.read = function(filter, options, callback) {
   console.log('F', filter, options);
   var projection = {};
   if (options.projection) {
@@ -77,7 +80,7 @@ Location.read = function(filter, options, callback) {
 
 
 // create
-Location.create = function(location, callback) {
+Location.extension.create = function(location, callback) {
   var newlocation = new Location({
     id: location.id,
     type: location.type,
@@ -107,7 +110,7 @@ Location.create = function(location, callback) {
 };
 
 // update
-Location.update = function(location, callback) {
+Location.extension.update = function(location, callback) {
   // find existing by uuid
   Location.findById(location._id, function(err, existing) {
     if (err || !existing) {
@@ -145,10 +148,32 @@ Location.update = function(location, callback) {
   });
 };
 
-Location.delete = function(_id, callback) {
+Location.extension.delete = function(_id, callback) {
   Location.findByIdAndRemove(_id, function(err) {
     callback(err, _id);
   });
+};
+
+var ObjectId = mongoose.Types.ObjectId;
+
+// add a review to existing location
+Location.extension.addReview = function(id, review, callback) {
+  Location.update(
+    {_id: id},
+    {
+      $push: {
+        reviews: {
+          body: 'testing model',
+          rating: 5,
+          updated: Date.now(),
+          userId: 43
+        }
+      }
+    },
+    function(err) {
+      callback(err);
+    }
+  );
 };
 
 

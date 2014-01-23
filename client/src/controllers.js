@@ -1,5 +1,12 @@
 (function() {
 
+  angular.module('skipspicks').controller('ContextController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
+    $scope.addReview = function(loc) {
+      console.log('addR', loc);
+    };
+  }]);
+
+
   angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
     /*
      ContextService.full();
@@ -61,7 +68,7 @@
 
     $rootScope.showSettings = function() {
       $rootScope.templateUrl = 'partials/settings.html';
-      ContextService.show();
+      ContextService.toggle();
     };
   }]);
 
