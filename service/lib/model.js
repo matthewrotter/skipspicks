@@ -158,13 +158,14 @@ var ObjectId = mongoose.Types.ObjectId;
 
 // add a review to existing location
 Location.extension.addReview = function(id, review, callback) {
+  console.log('OR', review);
   Location.update(
     {_id: id},
     {
       $push: {
         reviews: {
-          body: 'testing model',
-          rating: 5,
+          body: review.body,
+          rating: review.rating,
           updated: Date.now(),
           userId: 43
         }

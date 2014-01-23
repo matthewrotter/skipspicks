@@ -1,0 +1,46 @@
+<div ng-controller="AddReviewController">
+  <form>
+    <div class="row">
+      <div class="col-xs-11 col-md-11">
+        <h1>{{ Location.name }}</h1>
+      </div>
+      <div class="col-xs-1 col-md-1 floatButton pointer text-center" ng-click="hideEditor()">
+        X
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-md-12">
+        <label for="reviewBody">Review</label>
+        <textarea
+                id="reviewBody"
+                ng-model="Review.body"
+                name="reviewBody"
+                placeholder="Review"
+                class="form-control"
+                cols="40"
+                rows="5"
+                ></textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-4 col-md-4">
+        <label for="reviewRating">Rating</label>
+        <select
+                id="reviewRating"
+                ng-model="Review.rating"
+                ng-options="rating for rating in ratings"
+                name="reviewRating"
+                class="form-control"
+                >
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-md-12">
+        <button type="submit" class="btn btn-default" ng-click="save()">Submit</button>
+      </div>
+    </div>
+  </form>
+</div>

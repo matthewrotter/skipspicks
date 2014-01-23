@@ -63,6 +63,7 @@
               markers.push(marker);
               // marker.bindPopup(content); // .openPopup();
               marker.on('click', function() {
+                console.log('Clicked', loc);
                 if (self.activePin) {
                   self.map.removeLayer(self.activePin);
                 }

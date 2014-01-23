@@ -64,7 +64,7 @@ exports = module.exports = function(app) {
   });
 
   app.post(locationPath + '/:id/review', function(req, res, next) {
-    Location.extension.addReview(req.params.id, null, function(err) {
+    Location.extension.addReview(req.params.id, req.body, function(err) {
       res.json({err: err});
     });
   });

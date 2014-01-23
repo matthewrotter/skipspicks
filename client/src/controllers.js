@@ -1,8 +1,28 @@
 (function() {
 
+  angular.module('skipspicks').controller('AddReviewController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
+    $scope.Review = {
+      rating: 1
+    };
+
+    $scope.save = function() {
+      console.log('addrevsave', $scope.Location);
+
+      // BEER: move to service
+      $http.post('http://localhost:4001/api/v1/location/' + $scope.Location._id + '/review', $scope.Review)
+        .success(function(result) {
+          console.log('SAVED', result);
+        })
+        .error(function(err) {
+          console.log('Error', err);
+        });
+    };
+  }]);
+
   angular.module('skipspicks').controller('ContextController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
-    $scope.addReview = function(loc) {
-      console.log('addR', loc);
+    $scope.addReview = function() {
+      $rootScope.templateUrl = 'partials/add-review.html';
+      ContextService.full();
     };
   }]);
 
@@ -39,7 +59,7 @@
         return val;
       });
 
-      console.log('LL', $scope.LocationEdit.details, $scope.LocationEdit);
+      console.log('mainctrlsave', $scope.LocationEdit.details, $scope.LocationEdit);
     };
 
     /*
