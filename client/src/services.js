@@ -4,6 +4,24 @@
 
     .constant('Config', SkipsPicks.inject('Config'))
 
+    // utilize Angular.js REST helper provider?
+    .factory('LocationRestService', ['$http', 'Config', function($http, Config) {
+
+      var service = {
+        getLocations: function(limit) {
+          limit = limit || 10;
+          // get locations
+          return $http.get(Config.service.host + Config.service.endpoints.location + '?limit=' + limit);
+        },
+        getLocationsByFilter: function(filters) {
+          return $http.post(Config.service.host + Config.service.endpoints.locationFilter, filters);
+        }
+      };
+
+      return service;
+
+    }])
+
     .factory('MapService', ['$rootScope', 'ContextService', 'Config', function($rootScope, ContextService, Config) {
       $rootScope.getDetail = function(loc) {
         console.log('GETD', loc);
@@ -26,6 +44,11 @@
               // attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
               maxZoom: 18
             }).addTo(this.map);
+          },
+          getBounds: function() {
+            var bounds = this.map.getBounds(),
+              set = [bounds._southWest.lat, bounds._southWest.lng, bounds._northEast.lat, bounds._northEast.lng];
+            return set;
           },
           addMarkers: function(locations) {
             var self = this;
@@ -64,18 +87,24 @@
               // marker.bindPopup(content); // .openPopup();
               marker.on('click', function() {
                 console.log('Clicked', loc);
+                var handler = function() {
+                  $rootScope.templateUrl = 'partials/location-detail.html';
+                  loc.ratingAverage = avg;
+                  $rootScope.Location = loc;
+                  ContextService.swap();
+
+                  $rootScope.$apply();
+                };
+
                 if (self.activePin) {
                   self.map.removeLayer(self.activePin);
                 }
                 self.activePin = L.marker([loc.lat, loc.lng]).addTo(self.map);
+                self.activePin.on('click', function() {
+                  handler();
+                });
 
-                $rootScope.templateUrl = 'partials/location-detail.html';
-
-                loc.ratingAverage = avg;
-                $rootScope.Location = loc;
-                ContextService.swap();
-
-                $rootScope.$apply();
+                handler();
               });
             });
           },

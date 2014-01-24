@@ -12,7 +12,7 @@
         // console.log('WARNING: CONFIG IS NOT SET');
         result = {
           service: {
-            host: /* HOST */'http://skipspicks.jit.su',
+            host: /*! HOST */'http://localhost:4001',
             endpoints: {
               location: '/api/v1/location',
               locationFilter: '/api/v1/location/filter',

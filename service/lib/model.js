@@ -48,6 +48,7 @@ var LocationSchema = new mongoose.Schema({
 });
 
 LocationSchema.index({lat: asc, lng: asc});
+LocationSchema.index({updated: desc});
 
 var Location = mongoose.model('Location', LocationSchema);
 // mongoose.Types.ObjectId
@@ -61,7 +62,6 @@ Location.extension = {};
 
 // read; filter is a mongoose/mongo query pattern
 Location.extension.read = function(filter, options, callback) {
-  console.log('F', filter, options);
   var projection = {};
   if (options.projection) {
     _.extend(projection, options.projection);
@@ -72,7 +72,8 @@ Location.extension.read = function(filter, options, callback) {
     query.limit(options.limit);
   }
 
-  // .sort({updated: asc})
+  query.sort({created: desc});
+
   query.exec(function(err, result) {
     callback(err, result);
   });

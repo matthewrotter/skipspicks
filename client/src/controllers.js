@@ -19,6 +19,7 @@
     };
   }]);
 
+
   angular.module('skipspicks').controller('ContextController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
     $scope.addReview = function() {
       $rootScope.templateUrl = 'partials/add-review.html';
@@ -93,7 +94,7 @@
   }]);
 
 
-  angular.module('skipspicks').controller('SearchController', ['$scope', '$http', '$q', 'MapService', 'ConfigService', 'Config', function($scope, $http, $q, MapService, ConfigService, Config) {
+  angular.module('skipspicks').controller('SearchController', ['$scope', '$rootScope', '$http', '$q', 'LocationRestService', 'MapService', 'ConfigService', 'Config', function($scope, $rootScope, $http, $q, LocationRestService, MapService, ConfigService, Config) {
     var keywords = [];
 
     ConfigService.async().then(function(result) {
@@ -103,7 +104,7 @@
       });
     });
 
-    $scope.tags = ['Restaurant', 'Bar'];
+    $rootScope.tags = ['Restaurant', 'Bar'];
 
     $scope.loadTags = function(query) {
       var deferred = $q.defer(),
@@ -119,17 +120,23 @@
     };
 
     $scope.search = function() {
-      console.log('S', $scope.tags);
-      $http.post(Config.service.host + Config.service.endpoints.locationFilter, $scope.tags)
+      var filter = {
+        tags: $rootScope.tags,
+        bounds: MapService.getBounds()
+      };
+      LocationRestService.getLocationsByFilter(filter)
         .success(function(result) {
-          // console.log('PF', result);
           MapService.addMarkers(result);
+        })
+        .error(function(err) {
+          console.log('Error', err);
         });
     };
 
   }]);
 
-  angular.module('skipspicks').controller('MapController', ['$scope', '$rootScope', '$http', 'ContextService', 'MapService', 'GeoService', 'Config', function($scope, $rootScope, $http, ContextService, MapService, GeoService, Config) {
+
+  angular.module('skipspicks').controller('MapController', ['$scope', '$rootScope', '$http', 'LocationRestService', 'ContextService', 'MapService', 'GeoService', 'Config', function($scope, $rootScope, $http, LocationRestService, ContextService, MapService, GeoService, Config) {
     var map = MapService.map;
 
     // move to user's location
@@ -145,14 +152,13 @@
 
       map.on('moveend', function(distance) {
         console.log('D', distance);
-        var bounds = map.getBounds(),
-          set = [bounds._southWest.lat, bounds._southWest.lng, bounds._northEast.lat, bounds._northEast.lng],
-          path = set.join('/');
 
-        // BEER: create LocationService
-        $http.get(Config.service.host + Config.service.endpoints.locationsByGeo + '/' + path)
+        var filter = {
+          tags: $rootScope.tags,
+          bounds: MapService.getBounds()
+        };
+        LocationRestService.getLocationsByFilter(filter)
           .success(function(result) {
-            // $rootScope.locations = result;
             MapService.addMarkers(result);
           })
           .error(function(err) {
@@ -162,7 +168,7 @@
     });
 
     // get locations
-    $http.get(Config.service.host + Config.service.endpoints.location + '?limit=10')
+    LocationRestService.getLocations()
       .success(function(result) {
         MapService.addMarkers(result);
       })

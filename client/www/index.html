@@ -20,7 +20,7 @@
 
 <div id="searchbox" ng-controller="SearchController">
   <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="search()" on-tag-removed="search()">
-    <auto-complete source="loadTags($query)"></auto-complete>
+    <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
   </tags-input>
 </div>
 

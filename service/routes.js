@@ -29,13 +29,28 @@ exports = module.exports = function(app) {
 
   // filter by attribute lists
   app.post(locationPath + '/filter', function(req, res, next) {
-    var query = {
-      $or: [
-        {cuisine: {$in: req.body}},
-        {type: {$in: req.body}}
-      ]
-    };
-    console.log('ASD', query);
+    var filters = req.body;
+
+    console.log('FILTER', filters);
+    var query = {};
+    if (!_.isEmpty(filters.tags)) {
+      _.extend(query, {
+        $or: [
+          {cuisine: {$in: filters.tags}},
+          {type: {$in: filters.tags}}
+        ]
+      });
+    }
+
+    if (filters.bounds) {
+      _.extend(query, {
+        'lat': {$gte: filters.bounds[0], $lte: filters.bounds[2]},
+        'lng': {$gte: filters.bounds[1], $lte: filters.bounds[3]}
+      });
+    }
+
+    console.log('ASD', JSON.stringify(query));
+
 
     Location.extension.read(query, {limit: 50 /*, projection: {cuisine: 1} */}, function(err, result) {
       if (err) {

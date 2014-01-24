@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  var target = grunt.option('target') || 'local';
+
   grunt.initConfig({
     clientdir: 'client',
     servicedir: 'service',
@@ -74,12 +76,12 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: ['<%= jshint.files %>', '!<%= servicedir %>'],
+        files: ['<%= jshint.files %>', '!<%= servicedir %>/**/*.js'],
         tasks: ['jshint', 'concat', 'uglify']
       },
       express: {
       files: ['sp-server.js', '<%= servicedir %>/**/*.js'],
-        tasks: ['express:dev'],
+        tasks: ['jshint', 'express:dev'],
         options: {
           spawn: false
         }
@@ -92,7 +94,7 @@ module.exports = function(grunt) {
     replace: {
       local: {
         src: [
-          'client/dist/assets/js/code*',
+          'client/src/config.js',
           'service/config.js'
         ],
         overwrite: true,
@@ -109,7 +111,7 @@ module.exports = function(grunt) {
       },
       nodejitsu: {
         src: [
-          'client/dist/assets/js/code*',
+          'client/src/config.js',
           'service/config.js'
         ],
         overwrite: true,
@@ -137,15 +139,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-text-replace');
 
 
-  // NOTE: npm install phantomjs -g to work w/ PhantomJS
-
-  grunt.registerTask('test', ['jshint']);
-  grunt.registerTask('work', ['jshint', 'build-local', 'express', 'watch']);
-  grunt.registerTask('build-local', 
-          ['clean', 'concat', 'copy', 'uglify', 'replace:local']);
-  grunt.registerTask('build-nodejitsu', 
-          ['clean', 'concat', 'copy', 'uglify', 'replace:nodejitsu']);
-  grunt.registerTask('nodejitsu', ['build-nodejitsu']);
+  grunt.registerTask('test',  ['jshint']);
+  grunt.registerTask('work',  ['jshint', 'build', 'express', 'watch']);
+  grunt.registerTask('build', 
+          ['replace:' + target, 'clean', 'concat', 'copy', 'uglify']);
   grunt.registerTask('default', ['work']);
+
+  console.log('TARGET', target);
 
 };
