@@ -1,6 +1,6 @@
 {
   "name": "skipspicks",
-  "version": "3.0.0-7",
+  "version": "3.0.0-8",
   "description": "Skip's Picks version 3",
   "main": "sp-server.js",
   "scripts": {
@@ -31,7 +31,8 @@
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-copy": "~0.4.1",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-express-server": "~0.4.11"
+    "grunt-express-server": "~0.4.11",
+    "grunt-text-replace": "~0.3.10"
   },
   "dependencies": {
     "underscore": "~1.5.2",
@@ -41,5 +42,15 @@
   "subdomain": "skipspicks",
   "engines": {
     "node": "0.10.x"
+  },
+  "replace": {
+    "local": {
+      "host": "http://localhost:4001",
+      "mongo": "mongodb://localhost:27017/skipspicks"
+    },
+    "nodejitsu": {
+      "host": "http://skipspicks.jit.su",
+      "mongo": "mongodb://nodejitsu_matthewrotter:khs1qlmg6qd9n4sbod6a373huj@ds061558.mongolab.com:61558/nodejitsu_matthewrotter_nodejitsudb8673834323"
+    }
   }
 }

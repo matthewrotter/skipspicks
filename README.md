@@ -31,3 +31,6 @@ ToDo:
 - context service
 - generify for other layers, like footprint
 
+- update Location updated on add review
+- sort results on updated
+

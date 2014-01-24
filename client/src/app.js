@@ -22,18 +22,18 @@
       }
     };
 
-/*
-    // for lack of a better place, window options for mobile web like orientation and scrolltop
-    if (window.innerWidth > window.innerHeight) {
-      ContextService.switchOrientation(90);
-    }
-    window.addEventListener("orientationchange", function() {
-      ContextService.switchOrientation(window.orientation);
-    }, false);
-    window.addEventListener("resize", function() {
-      ContextService.switchOrientation(window.orientation);
-    }, false);
-*/
+    /*
+     // for lack of a better place, window options for mobile web like orientation and scrolltop
+     if (window.innerWidth > window.innerHeight) {
+     ContextService.switchOrientation(90);
+     }
+     window.addEventListener("orientationchange", function() {
+     ContextService.switchOrientation(window.orientation);
+     }, false);
+     window.addEventListener("resize", function() {
+     ContextService.switchOrientation(window.orientation);
+     }, false);
+     */
 
   }]);
 

@@ -88,6 +88,42 @@ module.exports = function(grunt) {
         files: ['<%= clientdir %>/www/**/*.html', '<%= clientdir %>/www/**/*.css'],
         tasks: ['copy']
       }
+    },
+    replace: {
+      local: {
+        src: [
+          'client/dist/assets/js/code*',
+          'service/config.js'
+        ],
+        overwrite: true,
+        replacements: [
+          {
+            from: /(HOST.?\*\/.?['"])([^'"]+)/g,
+            to: '$1<%= pkg.replace.local.host %>'
+          },
+          {
+            from: /(MONGO.?\*\/.?['"])([^'"]+)/g,
+            to: '$1<%= pkg.replace.local.mongo %>'
+          }
+        ]
+      },
+      nodejitsu: {
+        src: [
+          'client/dist/assets/js/code*',
+          'service/config.js'
+        ],
+        overwrite: true,
+        replacements: [
+          {
+            from: /(HOST.?\*\/.?['"])([^'"]+)/g,
+            to: '$1<%= pkg.replace.nodejitsu.host %>'
+          },
+          {
+            from: /(MONGO.?\*\/.?['"])([^'"]+)/g,
+            to: '$1<%= pkg.replace.nodejitsu.mongo %>'
+          }
+        ]
+      }
     }
   });
 
@@ -98,13 +134,18 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-express-server');
+  grunt.loadNpmTasks('grunt-text-replace');
 
 
   // NOTE: npm install phantomjs -g to work w/ PhantomJS
 
   grunt.registerTask('test', ['jshint']);
-  grunt.registerTask('work', ['jshint', 'build', 'express', 'watch']);
-  grunt.registerTask('build', ['clean', 'concat', 'copy', 'uglify']);
+  grunt.registerTask('work', ['jshint', 'build-local', 'express', 'watch']);
+  grunt.registerTask('build-local', 
+          ['clean', 'concat', 'copy', 'uglify', 'replace:local']);
+  grunt.registerTask('build-nodejitsu', 
+          ['clean', 'concat', 'copy', 'uglify', 'replace:nodejitsu']);
+  grunt.registerTask('nodejitsu', ['build-nodejitsu']);
   grunt.registerTask('default', ['work']);
 
 };
