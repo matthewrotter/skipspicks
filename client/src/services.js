@@ -190,6 +190,11 @@
         menu.toggleClass('show');
       };
 
+      // convenience stuff
+      $rootScope.hideContextMenu = function() {
+        menu.hide();
+      };
+
       return menu;
 
     }])
@@ -221,9 +226,33 @@
       return SkipsPicks.inject('Utility');
     })
 
-    .factory('GeoService', function() {
-      return SkipsPicks.inject('GeolocationService');
-    })
+    .factory('GeoService', ['$http', 'Config', function($http, Config) {
+      var service = SkipsPicks.inject('GeolocationService');
+
+      // enhance w/ reverse geocoding; not sure how to add this what with its dependencies to above lib
+      service.reverseGeocode = function(latlng, callback) {
+        latlng = _.isArray(latlng) ? latlng.join(',') : latlng;
+        geoCode('latlng', latlng, callback);
+      };
+
+      service.geocode = function(address, callback) {
+        geoCode('address', address, callback);
+      };
+
+      function geoCode(param, position, callback) {
+        $http.get(Config.api.geocode + '&' + param + '=' + encodeURIComponent(position))
+          .success(function(result) {
+            console.log('GC', result);
+            callback(result);
+          })
+          .error(function(err) {
+            console.log('Error', err);
+          });
+
+      }
+
+      return service;
+    }])
 
     .factory('exceptionHandlerFactory', ['Config', 'Utils', function(Config, Utils) {
 

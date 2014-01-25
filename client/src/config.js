@@ -21,6 +21,7 @@
             }
           },
           api: {
+            geocode: 'http://maps.googleapis.com/maps/api/geocode/json?sensor=true'
           },
           geo: {
             initial: [45.523728, -122.677988]

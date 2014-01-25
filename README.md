@@ -6,13 +6,11 @@ Skip's Picks v.3
 
 ToDo:
 
-- menu slide from right to left
-  - move map and center when menu slides out
-- add search
+- move map and center when menu slides up
 - add filters
 - add user favoriting (localStorage)
 - add user creation interface
-- hanlde 300ms delay!-
+~~ hanlde 300ms delay! ~~
 - move context menu based on orientation 
 - optimize location grabbing 
 - empty tray on close? or at Lear scroll up
@@ -34,3 +32,8 @@ ToDo:
 - update Location updated on add review
 - sort results on updated
 
+- search:
+  - case-insensitive
+  - search by loc name
+  - hit google places?
+  - hide context on focus/search

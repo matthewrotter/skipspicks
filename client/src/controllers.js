@@ -20,6 +20,36 @@
   }]);
 
 
+  angular.module('skipspicks').controller('EstablishLocationController', ['$scope', '$rootScope', 'GeoService', 'ContextService', function($scope, $rootScope, GeoService, ContextService) {
+    $scope.Establish = {};
+
+    $scope.lookup = function() {
+      GeoService.geocode($scope.Establish.address, function(result) {
+        $scope.matches = result.results.slice(0, 3);
+      });
+    };
+    $scope.clear = function() {
+      $scope.matches = null;
+      $scope.Establish = {};
+    };
+    $scope.chooseLocation = function(loc) {
+      var comps = {};
+      loc.address_components.forEach(function(comp) {
+        comps[comp.types[0]] = comp.short_name;
+      });
+      console.log('CMPS', comps);
+      $rootScope.LocationEdit = {
+        address: comps.street_number + ' ' + comps.route,
+        city: comps.locality,
+        state: comps.administrative_area_level_1,
+        postalCode: comps.postal_code
+      };
+      $rootScope.templateUrl = 'partials/add-location.html';
+      ContextService.full();
+    };
+  }]);
+
+
   angular.module('skipspicks').controller('ContextController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
     $scope.addReview = function() {
       $rootScope.templateUrl = 'partials/add-review.html';
@@ -29,17 +59,16 @@
 
 
   angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
-    /*
-     ContextService.full();
-     ContextService.show();
-     $rootScope.templateUrl = 'partials/editor.html';
-     */
+    // ContextService.full();
+    ContextService.show();
+    $rootScope.templateUrl = 'partials/establish-location.html';
+
     $scope.handleToggle = function() {
       ContextService.cHandleToggle();
     };
 
     // form setup/set defaults
-    $scope.LocationEdit = {
+    $rootScope.LocationEdit = {
       // name: 'Shitbird',
       price: '$',
       review: {
@@ -59,11 +88,11 @@
 
     $scope.save = function() {
       // pick out the details
-      $scope.LocationEdit.details = _.map($scope.selectedDetails, function(val, key) {
+      $rootScope.LocationEdit.details = _.map($scope.selectedDetails, function(val, key) {
         return val;
       });
 
-      console.log('mainctrlsave', $scope.LocationEdit.details, $scope.LocationEdit);
+      console.log('mainctrlsave', $rootScope.LocationEdit.details, $rootScope.LocationEdit);
     };
 
     /*
@@ -81,9 +110,9 @@
      // 52db0e68053794ea7b000003
      */
 
-    $rootScope.showEditor = function() {
-      $rootScope.templateUrl = 'partials/editor.html';
-      ContextService.full();
+    $rootScope.showEstablishLocation = function() {
+      $rootScope.templateUrl = 'partials/establish-location.html';
+      ContextService.show();
     };
     $rootScope.hideEditor = function() {
       console.log('HIDE');
@@ -97,7 +126,7 @@
   }]);
 
 
-  angular.module('skipspicks').controller('SearchController', ['$scope', '$rootScope', '$http', '$q', 'LocationRestService', 'MapService', 'ConfigService', 'Config', function($scope, $rootScope, $http, $q, LocationRestService, MapService, ConfigService, Config) {
+  angular.module('skipspicks').controller('SearchController', ['$scope', '$rootScope', '$http', '$q', 'LocationRestService', 'MapService', 'ContextService', 'ConfigService', function($scope, $rootScope, $http, $q, LocationRestService, MapService, ContextService, ConfigService) {
     var keywords = [];
 
     ConfigService.async().then(function(result) {
@@ -123,6 +152,7 @@
     };
 
     $scope.search = function() {
+      ContextService.hide();
       var filter = {
         tags: $rootScope.tags,
         bounds: MapService.getBounds()
@@ -139,13 +169,21 @@
   }]);
 
 
-  angular.module('skipspicks').controller('MapController', ['$scope', '$rootScope', '$http', 'LocationRestService', 'ContextService', 'MapService', 'GeoService', 'Config', function($scope, $rootScope, $http, LocationRestService, ContextService, MapService, GeoService, Config) {
+  angular.module('skipspicks').controller('MapController', ['$scope', '$rootScope', '$http', 'LocationRestService', 'ContextService', 'MapService', 'GeoService', function($scope, $rootScope, $http, LocationRestService, ContextService, MapService, GeoService) {
     var map = MapService.map;
 
     // move to user's location
     GeoService.locate(function(pos) {
       var crd = pos.latlng,
         coords = [crd.latitude, crd.longitude];
+
+      GeoService.reverseGeocode(coords, function(result) {
+        var parse = {};
+        result.results.forEach(function(addressInfo) {
+          parse[addressInfo.types[0]] = addressInfo.formatted_address;
+        });
+        $rootScope.geolocation = parse;
+      });
 
       map.setView(coords, 15);
 
