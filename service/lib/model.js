@@ -11,6 +11,7 @@ var asc = 1,
  * TODO:
  * - add disabled flag
  * - move lat/lng to geolocation native
+ * - add a Blurb field: short summary description
  */
 var LocationSchema = new mongoose.Schema({
   id: Number,
@@ -159,7 +160,7 @@ var ObjectId = mongoose.Types.ObjectId;
 
 // add a review to existing location
 Location.extension.addReview = function(id, review, callback) {
-  console.log('OR', review);
+  console.log('OR', id, review);
   Location.update(
     {_id: id},
     {

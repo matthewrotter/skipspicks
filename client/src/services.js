@@ -126,10 +126,13 @@
       return service;
     }])
 
-    .factory('ContextService', [function() {
+    .factory('ContextService', ['$rootScope', function($rootScope) {
+      $rootScope.contextState = 0;
+
       var menu = {
         // BEER: I'm sure this is super jank
         swap: function swap() {
+          $rootScope.contextState = 0;
           var self = this;
           var menu = angular.element(document.querySelector('#context'));
           if (menu.hasClass('show')) {
@@ -152,10 +155,19 @@
             menu.removeClass('portrait');
             menu.addClass('landscape');
           }
+        },
+        cHandleToggle: function() {
+          if ($rootScope.contextState) {
+            this.hide();
+          } else {
+            this.full();
+          }
         }
       };
 
+
       menu.full = function full() {
+        $rootScope.contextState = 1;
         var menu = angular.element(document.querySelector('#context'));
         menu.addClass('full');
       };
@@ -166,12 +178,14 @@
       };
 
       menu.hide = function hide() {
+        $rootScope.contextState = 0;
         var menu = angular.element(document.querySelector('#context'));
         menu.removeClass('show');
         menu.removeClass('full');
       };
 
       menu.toggle = function toggle() {
+        $rootScope.contextState = !$rootScope.contextState;
         var menu = angular.element(document.querySelector('#context'));
         menu.toggleClass('show');
       };

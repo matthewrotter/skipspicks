@@ -1,3 +1,7 @@
+<!-- handle -->
+<div ng-show="contextState === 0" class="handle pointer" ng-click="handleToggle()">&#9650;</div>
+<div ng-hide="contextState === 0" class="handle pointer" ng-click="handleToggle()">&#9660;</div>
+
 <div class="row">
   <div class="col-xs-12 col-md-12">
     <h1 class="title">{{ Location.name }}</h1>
@@ -5,51 +9,55 @@
 </div>
 
 <div class="row">
-  <div class="col-xs-3 col-md-3">
+  <div class="col-xs-2 col-md-2">
     <h2 class="title">{{ Location.ratingAverage }}/5</h2>
   </div>
-  <div class="col-xs-3 col-md-3">
-    {{ Location.reviews.length }} Review(s)
+  <div class="col-xs-5 col-md-5">
+    {{ Location.reviews.length }} Review(s)<br>
+    <span ng-repeat="cuisine in Location.cuisine">{{ cuisine }}{{ {true: '', false: ', '}[$last] }}</span>
+  </div>
+  <div class="col-xs-2 col-md-2">
+    {{ Location.price }}<br>
+    {{ Location.hours }}
   </div>
   <div class="col-xs-3 col-md-3">
-    {{ Location.price }}
+    <a href="" ng-click="addReview(Location)">Add Review</a>
   </div>
-  <a href="" ng-click="addReview(Location)">Add Review</a>
 </div>
 
-<!--
 
-<h4>Type</h4>
-<ul>
-  <li ng-repeat="type in Location.type">{{ type }}</li>
-</ul>
+<div ng-show="contextState">
 
-<h4>Cuisine</h4>
-<ul>
-  <li ng-repeat="cuisine in Location.cuisine">{{ cuisine }}</li>
-</ul>
+  <!--
+    <h4>Type</h4>
+    <ul>
+      <li ng-repeat="type in Location.type">{{ type }}</li>
+    </ul>
+   -->
 
+  <div>
+    {{ Location.address }}<br>
+    {{ Location.city }}, {{ Location.state }} {{ Location.postalCode }}<br>
+    {{ Location.phone }}<br>
+    <a ng-href="{{ Location.url }}">{{ Location.url }}</a>
+  </div>
 
-{{ Location.address }}<br>
-{{ Location.city }}, {{ Location.state }} {{ Location.postalCode }}
+  <div>
+    <span ng-repeat="detail in Location.details">{{ detail }}{{ {true: '', false: ', '}[$last] }}</span>
+  </div>
 
-{{ Location.ratings }}<br>
-{{ Location.details }}<br>
-{{ Location.reviews }}<br>
+  <h2>Reviews</h2>
 
-Location.price: String,
-Location.name: String,
-Location.address: String,
-Location.city: String,
-Location.state: String,
-Location.postalCode: String,
-Location.hours: String,
-Location.phone: Number,
-Location.pick: Boolean,
-Location.lat: Number, // replace with native type?
-Location.lng: Number,
-Location.userId: Number,
-Location.url: String,
-Location.updated: { type: Date, default: Date.now },
-Location.created: Date
- -->
+  <div ng-repeat="review in Location.reviews">
+    Rating: {{ review.rating }}<br>
+    {{ review.body }}<br>
+    {{ review.updated | date:'fullDate' }}
+  </div>
+
+  <!-- Location.pick: Boolean, -->
+
+  <div>
+    Created: {{ Location.created | date:'fullDate' }}<br>
+    Updated: {{ Location.updated | date:'fullDate' }}
+  </div>
+</div>

@@ -34,6 +34,9 @@
      ContextService.show();
      $rootScope.templateUrl = 'partials/editor.html';
      */
+    $scope.handleToggle = function() {
+      ContextService.cHandleToggle();
+    };
 
     // form setup/set defaults
     $scope.LocationEdit = {

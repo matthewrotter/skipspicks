@@ -55,6 +55,18 @@ div#map {
   right: 10px;
 }
 
+#context .handle {
+  height: 19px;
+  text-align: center;
+  vertical-align: top;
+  border: 1px solid #808080;
+  color: #808080;
+  width: 30px;
+  margin: 0 auto;
+  background: #ffffff;
+  z-index: 43;
+}
+
 #context.landscape {
   position: absolute;
   right: 0;
