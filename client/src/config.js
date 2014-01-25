@@ -17,7 +17,8 @@
               location: '/api/v1/location',
               locationFilter: '/api/v1/location/filter',
               locationsByGeo: '/api/v1/location/geo',
-              config: '/api/v1/config'
+              config: '/api/v1/config',
+              places: '/api/v1/places'
             }
           },
           api: {

@@ -1,4 +1,6 @@
 var _ = require('underscore'),
+  request = require('request'),
+  qs = require('qs'),
   model = require('./lib/model'),
   Location = model.Location,
   Config = model.Config,
@@ -149,6 +151,27 @@ exports = module.exports = function(app) {
       res.json(result);
     });
   });
+
+
+  /*
+   * Google Places pass-thru
+   */
+  app.get(urlRoot + '/places/:latlng/:query', function(req, res, next) {
+    // key and sensor are set in config
+    var options = {
+      location: req.params.latlng,
+      radius: app.config.google.places.radius,
+      types: 'bar|restaurant|food|liquor_store|casino|convenience_store|bowling_alley|cafe|grocery_or_supermarket|laundry|lodging|meal_delivery|meal_takeaway|movie_theater|night_club|park|police|spa|stadium',
+      // rankby: 'distance', // for nearby, not text search
+      // keyword: req.params.query, // nearby
+      query: req.params.query // text search
+    };
+
+    var url = app.config.google.places.endpoint + '&' + qs.stringify(options);
+    console.log('GoogUrl', url);
+    request.get(url).pipe(res);
+  });
+
 
   // import
   app.get(configPath + '/import', function(req, res, next) {

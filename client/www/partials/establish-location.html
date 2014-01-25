@@ -1,16 +1,16 @@
 <div ng-controller="EstablishLocationController">
+  <div class="row">
+    <div class="col-xs-11 col-md-11">
+      <h4 class="title">Find Location to Review</h4>
+    </div>
+    <div class="col-xs-1 col-md-1 floatButton pointer text-center" ng-click="hideContextMenu()">
+      X
+    </div>
+  </div>
+
   <form>
     <div class="row">
-      <div class="col-xs-11 col-md-11">
-        <h4 class="title">Find Location to Review</h4>
-      </div>
-      <div class="col-xs-1 col-md-1 floatButton pointer text-center" ng-click="hideContextMenu()">
-        X
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-xs-12 col-md-12">
+      <div class="col-xs-9 col-md-9">
         <input
                 id="name"
                 ng-model="Establish.name"
@@ -19,16 +19,21 @@
                 class="form-control"
                 >
       </div>
-    </div>
-
-    <div class="row">
-      <div class="col-xs-12 col-md-12">
-        <label>OR</label>
+      <div class="col-xs-3 col-md-3">
+        <button type="submit" class="btn btn-default" ng-click="lookupByName()">Lookup</button>
       </div>
     </div>
+  </form>
 
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+      <label>OR</label>
+    </div>
+  </div>
+
+  <form>
     <div class="row">
-      <div class="col-xs-12 col-md-12">
+      <div class="col-xs-9 col-md-9">
         <input
                 id="address"
                 ng-model="Establish.address"
@@ -37,22 +42,23 @@
                 class="form-control"
                 >
       </div>
-    </div>
-
-    <div class="row" ng-repeat="match in matches">
-      <div class="col-xs-12 col-md-12">
-        <a href="" ng-click="chooseLocation(match)">{{ match.formatted_address }}</a>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col-xs-6 col-md-6">
-        <button type="submit" class="btn btn-default" ng-click="lookup()">Lookup</button>
-      </div>
-      <div class="col-xs-6 col-md-6">
-        <button type="submit" class="btn btn-default" ng-click="clear()">Clear</button>
+      <div class="col-xs-3 col-md-3">
+        <button type="submit" class="btn btn-default" ng-click="lookupByAddress()">Lookup</button>
       </div>
     </div>
   </form>
+
+
+  <div class="row" ng-repeat="match in matches">
+    <div class="col-xs-12 col-md-12">
+      <a href="" ng-click="chooseLocation(match)">{{ match.name || match.formatted_address }}</a>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+      <button type="submit" class="btn btn-default" ng-click="clear()">Clear</button>
+    </div>
+  </div>
 </div>

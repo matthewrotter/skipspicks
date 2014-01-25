@@ -15,6 +15,18 @@
         },
         getLocationsByFilter: function(filters) {
           return $http.post(Config.service.host + Config.service.endpoints.locationFilter, filters);
+        },
+        findPlaces: function(latlng, query) {
+          return $http.get(Config.service.endpoints.places + '/' + latlng.join(',') + '/' + query);
+        },
+        // convenience method
+        qs: function(obj) {
+          var str = [];
+          for (var p in obj)
+            if (obj.hasOwnProperty(p)) {
+              str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+          return str.join("&");
         }
       };
 
@@ -229,6 +241,9 @@
     .factory('GeoService', ['$http', 'Config', function($http, Config) {
       var service = SkipsPicks.inject('GeolocationService');
 
+      // BEER: wrap back into lib...?
+      service.location = Config.geo.initial;
+
       // enhance w/ reverse geocoding; not sure how to add this what with its dependencies to above lib
       service.reverseGeocode = function(latlng, callback) {
         latlng = _.isArray(latlng) ? latlng.join(',') : latlng;
@@ -248,7 +263,6 @@
           .error(function(err) {
             console.log('Error', err);
           });
-
       }
 
       return service;

@@ -20,29 +20,42 @@
   }]);
 
 
-  angular.module('skipspicks').controller('EstablishLocationController', ['$scope', '$rootScope', 'GeoService', 'ContextService', function($scope, $rootScope, GeoService, ContextService) {
+  angular.module('skipspicks').controller('EstablishLocationController', ['$scope', '$rootScope', 'GeoService', 'LocationRestService', 'ContextService', function($scope, $rootScope, GeoService, LocationRestService, ContextService) {
     $scope.Establish = {};
 
-    $scope.lookup = function() {
+    $scope.lookupByAddress = function() {
       GeoService.geocode($scope.Establish.address, function(result) {
+        console.log('GoogGeoc', result);
         $scope.matches = result.results.slice(0, 3);
       });
     };
+
+    $scope.lookupByName = function() {
+      LocationRestService.findPlaces(GeoService.location, $scope.Establish.name)
+        .success(function(result) {
+          console.log('GoogPlace', result);
+          $scope.matches = result.results.slice(0, 3);
+        })
+        .error(function(err) {
+          console.log('Error', err);
+        });
+    };
+
     $scope.clear = function() {
       $scope.matches = null;
       $scope.Establish = {};
     };
+
     $scope.chooseLocation = function(loc) {
-      var comps = {};
-      loc.address_components.forEach(function(comp) {
-        comps[comp.types[0]] = comp.short_name;
-      });
-      console.log('CMPS', comps);
+      var comps = loc.formatted_address.split(', '),
+        subcomp = comps[2].split(' ');
+      console.log('ChLoc', loc);
       $rootScope.LocationEdit = {
-        address: comps.street_number + ' ' + comps.route,
-        city: comps.locality,
-        state: comps.administrative_area_level_1,
-        postalCode: comps.postal_code
+        name: loc.name,
+        address: comps[0],
+        city: comps[1],
+        state: subcomp[0],
+        postalCode: subcomp[1]
       };
       $rootScope.templateUrl = 'partials/add-location.html';
       ContextService.full();
@@ -59,9 +72,11 @@
 
 
   angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
-    // ContextService.full();
-    ContextService.show();
-    $rootScope.templateUrl = 'partials/establish-location.html';
+    /*
+     // ContextService.full();
+     ContextService.show();
+     $rootScope.templateUrl = 'partials/establish-location.html';
+     */
 
     $scope.handleToggle = function() {
       ContextService.cHandleToggle();
@@ -93,6 +108,7 @@
       });
 
       console.log('mainctrlsave', $rootScope.LocationEdit.details, $rootScope.LocationEdit);
+      alert('Not Implemented yet...');
     };
 
     /*
@@ -177,6 +193,8 @@
       var crd = pos.latlng,
         coords = [crd.latitude, crd.longitude];
 
+      GeoService.location = coords; // setting global usage
+
       GeoService.reverseGeocode(coords, function(result) {
         var parse = {};
         result.results.forEach(function(addressInfo) {
@@ -192,7 +210,10 @@
       });
 
       map.on('moveend', function(distance) {
-        console.log('D', distance);
+        var center = map.getCenter(),
+          latlng = [center.lat, center.lng];
+        console.log('D', distance, latlng);
+        GeoService.location = latlng;
 
         var filter = {
           tags: $rootScope.tags,
