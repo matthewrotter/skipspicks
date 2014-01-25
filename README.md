@@ -37,3 +37,9 @@ ToDo:
   - search by loc name
   - hit google places?
   - hide context on focus/search
+  - nearby mixed with places data 
+  - price filter 
+  - result list 
+  - ratingfilter 
+  - sort bys 
+  - 
