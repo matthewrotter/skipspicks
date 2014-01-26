@@ -7,6 +7,16 @@
       ContextService.show();
     };
 
+    snapRemote.getSnapper().then(function(snapper) {
+      snapper.on('open', function() {
+        ContextService.hide();
+      });
+
+      /*
+       snapper.on('close', function() {
+       });
+       */
+    });
   }]);
 
 

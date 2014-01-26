@@ -141,7 +141,7 @@
       return service;
     }])
 
-    .factory('ContextService', ['$rootScope', function($rootScope) {
+    .factory('ContextService', ['$rootScope', 'snapRemote', function($rootScope, snapRemote) {
       $rootScope.contextState = 0;
 
       var menu = {
@@ -182,12 +182,14 @@
 
 
       menu.full = function full() {
+        snapRemote.close();
         $rootScope.contextState = 1;
         var menu = angular.element(document.querySelector('#context'));
         menu.addClass('full');
       };
 
       menu.show = function show() {
+        snapRemote.close();
         var menu = angular.element(document.querySelector('#context'));
         menu.addClass('show');
       };
@@ -200,6 +202,7 @@
       };
 
       menu.toggle = function toggle() {
+        snapRemote.close();
         $rootScope.contextState = !$rootScope.contextState;
         var menu = angular.element(document.querySelector('#context'));
         menu.toggleClass('show');
