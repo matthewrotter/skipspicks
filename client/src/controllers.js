@@ -108,11 +108,23 @@
 
 
   angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', 'LocationRestService', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, LocationRestService, ContextService, ConfigService, Config) {
-    /*
-     // ContextService.full();
-     ContextService.show();
-     $rootScope.templateUrl = 'partials/establish-location.html';
-     */
+    ContextService.full();
+    ContextService.show();
+    $rootScope.templateUrl = 'partials/add-location.html';
+
+
+    // BEER: this should go somewhere at init time
+    ConfigService.async().then(function(result) {
+      $rootScope.Config = {
+        ratings: _.map(result.ratings, function(r) {
+          return parseInt(r, 10);
+        }),
+        details: result.details,
+        prices: result.prices
+      };
+    });
+
+
     $scope.snapOptions = {
       disable: 'left'
     };
@@ -132,13 +144,6 @@
       ]
     };
 
-    ConfigService.async().then(function(result) {
-      $scope.ratings = _.map(result.ratings, function(r) {
-        return parseInt(r, 10);
-      });
-      $scope.details = result.details;
-      $scope.prices = result.prices;
-    });
     $scope.selectedDetails = {};
     // /form setup
 

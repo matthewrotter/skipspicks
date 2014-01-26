@@ -32,11 +32,16 @@ ToDo:
 - update Location updated on add review
 - sort results on updated
 
+- add location name on hover/ remove on hover out
+- add loc name to search
+
 - search:
   - case-insensitive
   - search by loc name
   - hit google places?
   - hide context on focus/search
+  - add filters to settings menu
+  - use SOLR for indexing?
 
 - Alternate Features
   - New Apartment buildings
@@ -47,3 +52,13 @@ ToDo:
   - ratingfilter 
   - sort bys 
   - 
+
+- IMPORT
+  - downcase, or store a queryable substitute in separate field
+  - migrate to geolocatoin
+  - convert dates to epoch?
+
+- Map
+  - separate handlers for movend and dragend so can not refresh markers situationally
+    - will have to extend the bound box beyond view at same time
+  -

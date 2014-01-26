@@ -96,7 +96,7 @@
       <select
               id="reviewRating"
               ng-model="LocationEdit.reviews[0].rating"
-              ng-options="rating for rating in ratings"
+              ng-options="rating for rating in Config.ratings"
               name="rating"
               class="form-control"
               >
@@ -107,7 +107,7 @@
       <select
               id="price"
               ng-model="LocationEdit.price"
-              ng-options="price for price in prices"
+              ng-options="price for price in Config.prices"
               name="price"
               class="form-control"
               >
@@ -120,7 +120,7 @@
       <label>Details</label>
 
       <div>
-        <label class="checkbox-inline" ng-repeat="detail in details">
+        <label class="checkbox-inline" ng-repeat="detail in Config.details">
           <input
                   ng-model="selectedDetails[detail]"
                   ng-true-value="{{ detail }}"
