@@ -23,6 +23,12 @@
   angular.module('skipspicks').controller('EstablishLocationController', ['$scope', '$rootScope', 'GeoService', 'LocationRestService', 'ContextService', function($scope, $rootScope, GeoService, LocationRestService, ContextService) {
     $scope.Establish = {};
 
+    // BEER: handle this in directive or better
+    $scope.blur = function() {
+      document.getElementById('establishName').blur();
+      document.getElementById('establishAddress').blur();
+    };
+
     $scope.lookupByAddress = function() {
       GeoService.geocode($scope.Establish.address, function(result) {
         console.log('GoogGeoc', result);
@@ -55,7 +61,17 @@
         address: comps[0],
         city: comps[1],
         state: subcomp[0],
-        postalCode: subcomp[1]
+        postalCode: subcomp[1],
+        lat: loc.geometry.location.lat,
+        lng: loc.geometry.location.lng,
+
+        price: '$',
+        reviews: [
+          {
+            rating: 1
+          }
+        ],
+        type: ['Bar'] // BEER: remove hardcoding!!
       };
       $rootScope.templateUrl = 'partials/add-location.html';
       ContextService.full();
@@ -71,7 +87,7 @@
   }]);
 
 
-  angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
+  angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', 'LocationRestService', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, LocationRestService, ContextService, ConfigService, Config) {
     /*
      // ContextService.full();
      ContextService.show();
@@ -86,9 +102,11 @@
     $rootScope.LocationEdit = {
       // name: 'Shitbird',
       price: '$',
-      review: {
-        rating: 1
-      }
+      reviews: [
+        {
+          rating: 1
+        }
+      ]
     };
 
     ConfigService.async().then(function(result) {
@@ -107,8 +125,17 @@
         return val;
       });
 
-      console.log('mainctrlsave', $rootScope.LocationEdit.details, $rootScope.LocationEdit);
-      alert('Not Implemented yet...');
+      console.log('mainctrlsave', $rootScope.LocationEdit);
+
+      LocationRestService.createLocation($rootScope.LocationEdit)
+        .success(function(result) {
+          console.log('LOCSAVED', result);
+          alert('SAVED');
+        })
+        .error(function(err) {
+          console.log('Error', err);
+        });
+      // alert('Not Implemented yet...');
     };
 
     /*

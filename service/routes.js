@@ -112,7 +112,7 @@ exports = module.exports = function(app) {
   });
 
   app.post(locationPath, function(req, res, next) {
-    console.log(req.body);
+    console.log('POST', req.body);
     Location.extension.update(req.body, function(err, result) {
       if (err) {
         return next(err);
@@ -122,6 +122,7 @@ exports = module.exports = function(app) {
   });
 
   app.put(locationPath, function(req, res, next) {
+    console.log('PUT', req.body);
     Location.extension.create(req.body, function(err, result) {
       if (err) {
         next(err);

@@ -16,6 +16,9 @@
         getLocationsByFilter: function(filters) {
           return $http.post(Config.service.host + Config.service.endpoints.locationFilter, filters);
         },
+        createLocation: function(location) {
+          return $http.put(Config.service.host + Config.service.endpoints.location, location);
+        },
         findPlaces: function(latlng, query) {
           return $http.get(Config.service.endpoints.places + '/' + latlng.join(',') + '/' + query);
         },

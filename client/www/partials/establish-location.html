@@ -8,11 +8,11 @@
     </div>
   </div>
 
-  <form>
+  <form ng-submit="blur()">
     <div class="row">
       <div class="col-xs-9 col-md-9">
         <input
-                id="name"
+                id="establishName"
                 ng-model="Establish.name"
                 name="name"
                 placeholder="By Name"
@@ -31,11 +31,11 @@
     </div>
   </div>
 
-  <form>
+  <form ng-submit="blur()">
     <div class="row">
       <div class="col-xs-9 col-md-9">
         <input
-                id="address"
+                id="establishAddress"
                 ng-model="Establish.address"
                 name="address"
                 placeholder="By Street Address (eg. 1234 SE Main)"

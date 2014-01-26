@@ -1,6 +1,6 @@
 {
   "name": "skipspicks",
-  "version": "3.0.0-11",
+  "version": "3.0.0-12",
   "description": "Skip's Picks version 3",
   "main": "sp-server.js",
   "scripts": {
@@ -47,7 +47,7 @@
   },
   "replace": {
     "local": {
-      "host": "http://localhost:4001",
+      "host": "http://10.0.1.210:4001",
       "mongo": "mongodb://localhost:27017/skipspicks"
     },
     "nodejitsu": {

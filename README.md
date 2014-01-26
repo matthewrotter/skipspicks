@@ -37,3 +37,8 @@ ToDo:
   - search by loc name
   - hit google places?
   - hide context on focus/search
+
+- Alternate Features
+  - New Apartment buildings
+  - Drink index! collect more data on location entry/review
+

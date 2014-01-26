@@ -51,7 +51,7 @@ div#map {
 
 #settingsButton {
   position: absolute;
-  bottom: 32%;
+  bottom: 42%;
   right: 10px;
 }
 
@@ -76,9 +76,9 @@ div#map {
 
 #context.portrait {
   position: absolute;
-  bottom: -30%;
+  bottom: -40%;
   width: 100%;
-  height: 30%;
+  height: 40%;
   z-index: 10;
   background-color: #ffffff;
 

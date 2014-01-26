@@ -81,7 +81,7 @@
       <label for="reviewBody">Review</label>
       <textarea
               id="reviewBody"
-              ng-model="LocationEdit.review.body"
+              ng-model="LocationEdit.reviews[0].body"
               name="body"
               placeholder="Review"
               class="form-control"
@@ -95,7 +95,7 @@
       <label for="reviewRating">Rating</label>
       <select
               id="reviewRating"
-              ng-model="LocationEdit.review.rating"
+              ng-model="LocationEdit.reviews[0].rating"
               ng-options="rating for rating in ratings"
               name="rating"
               class="form-control"
