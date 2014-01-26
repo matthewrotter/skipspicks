@@ -41,4 +41,9 @@ ToDo:
 - Alternate Features
   - New Apartment buildings
   - Drink index! collect more data on location entry/review
-
+  - nearby mixed with places data 
+  - price filter 
+  - result list 
+  - ratingfilter 
+  - sort bys 
+  - 
