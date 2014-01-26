@@ -1,6 +1,17 @@
 (function() {
 
   angular.module('skipspicks').controller('SettingsController', ['$scope', '$rootScope', 'ContextService', 'snapRemote', function($scope, $rootScope, ContextService, snapRemote) {
+    snapRemote.open('right');
+
+    $scope.addTag = function(tag) {
+      $rootScope.tags.push(tag);
+      $rootScope.tagSearch();
+    };
+
+    $scope.used = function(item) {
+      return _.contains($rootScope.tags, item);
+    };
+
     $scope.showEstablishLocation = function() {
       snapRemote.close();
       $rootScope.templateUrl = 'partials/establish-location.html';
@@ -108,10 +119,12 @@
 
 
   angular.module('skipspicks').controller('MainController', ['$scope', '$rootScope', '$http', 'LocationRestService', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, LocationRestService, ContextService, ConfigService, Config) {
-    ContextService.full();
-    ContextService.show();
-    $rootScope.templateUrl = 'partials/add-location.html';
-
+    /*
+     ContextService.full();
+     ContextService.show();
+     $rootScope.templateUrl = 'partials/add-location.html';
+     */
+    $scope.settingsTemplateUrl = 'partials/settings.html';
 
     // BEER: this should go somewhere at init time
     ConfigService.async().then(function(result) {
@@ -120,13 +133,15 @@
           return parseInt(r, 10);
         }),
         details: result.details,
-        prices: result.prices
+        prices: result.prices,
+        cuisines: result.cuisines
       };
     });
 
 
     $scope.snapOptions = {
-      disable: 'left'
+      disable: 'left',
+      minPosition: -400
     };
 
     $scope.handleToggle = function() {
@@ -218,7 +233,7 @@
       return deferred.promise;
     };
 
-    $scope.search = function() {
+    $rootScope.tagSearch = function() {
       ContextService.hide();
       var filter = {
         tags: $rootScope.tags,

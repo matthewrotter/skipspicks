@@ -14,14 +14,7 @@
 <body>
 
 <div snap-drawer="right">
-  <div id="settings" snap-drawer="right" ng-controller="SettingsController">
-    SETTINGS
-
-    <ul>
-      <li>
-        <a href="" ng-click="showEstablishLocation()">Add Location</a>
-      </li>
-    </ul>
+  <div id="settings" ng-controller="SettingsController" ng-include="settingsTemplateUrl">
   </div>
 </div>
 
@@ -33,7 +26,7 @@
 
 
   <div id="searchbox" ng-controller="SearchController">
-    <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="search()" on-tag-removed="search()">
+    <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="tagSearch()" on-tag-removed="tagSearch()">
       <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
     </tags-input>
   </div>

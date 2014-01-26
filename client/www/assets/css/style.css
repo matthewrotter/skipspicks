@@ -51,6 +51,10 @@ div#map {
   -webkit-border-bottom-left-radius: 5px;
 }
 
+#settings {
+  padding: 10px;
+}
+
 #settingsButton {
   position: absolute;
   top: -60px;
