@@ -1,6 +1,6 @@
 {
   "name": "skipspicks",
-  "version": "3.0.0-13",
+  "version": "3.0.0-16",
   "description": "Skip's Picks version 3",
   "main": "sp-server.js",
   "scripts": {

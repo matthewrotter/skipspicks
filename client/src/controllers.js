@@ -1,7 +1,7 @@
 (function() {
 
   angular.module('skipspicks').controller('SettingsController', ['$scope', '$rootScope', 'ContextService', 'snapRemote', function($scope, $rootScope, ContextService, snapRemote) {
-    snapRemote.open('right');
+//    snapRemote.open('right');
 
     $scope.addTag = function(tag) {
       $rootScope.tags.push(tag);
