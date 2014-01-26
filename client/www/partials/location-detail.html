@@ -1,63 +1,65 @@
-<!-- handle -->
-<div ng-show="contextState === 0" class="handle pointer" ng-click="handleToggle()">&#9650;</div>
-<div ng-hide="contextState === 0" class="handle pointer" ng-click="handleToggle()">&#9660;</div>
+<div ng-controller="LocationDetailController">
+  <!-- handle -->
+  <div ng-show="contextState === 0" class="handle pointer" ng-click="handleToggle()">&#9650;</div>
+  <div ng-hide="contextState === 0" class="handle pointer" ng-click="handleToggle()">&#9660;</div>
 
-<div class="row">
-  <div class="col-xs-12 col-md-12">
-    <h1 class="title">{{ Location.name }}</h1>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-xs-2 col-md-2">
-    <h2 class="title">{{ Location.ratingAverage }}/5</h2>
-  </div>
-  <div class="col-xs-5 col-md-5">
-    {{ Location.reviews.length }} Review(s)<br>
-    <span ng-repeat="cuisine in Location.cuisine">{{ cuisine }}{{ {true: '', false: ', '}[$last] }}</span>
-  </div>
-  <div class="col-xs-2 col-md-2">
-    {{ Location.price }}<br>
-    {{ Location.hours }}
-  </div>
-  <div class="col-xs-3 col-md-3">
-    <a href="" ng-click="addReview(Location)">Add Review</a>
-  </div>
-</div>
-
-
-<div ng-show="contextState">
-
-  <!--
-    <h4>Type</h4>
-    <ul>
-      <li ng-repeat="type in Location.type">{{ type }}</li>
-    </ul>
-   -->
-
-  <div>
-    {{ Location.address }}<br>
-    {{ Location.city }}, {{ Location.state }} {{ Location.postalCode }}<br>
-    {{ Location.phone }}<br>
-    <a ng-href="{{ Location.url }}">{{ Location.url }}</a>
+  <div class="row">
+    <div class="col-xs-12 col-md-12">
+      <h1 class="title">{{ Location.name }}</h1>
+    </div>
   </div>
 
-  <div>
-    <span ng-repeat="detail in Location.details">{{ detail }}{{ {true: '', false: ', '}[$last] }}</span>
+  <div class="row">
+    <div class="col-xs-2 col-md-2">
+      <h2 class="title">{{ Location.ratingAverage }}/5</h2>
+    </div>
+    <div class="col-xs-5 col-md-5">
+      {{ Location.reviews.length }} Review(s)<br>
+      <span ng-repeat="cuisine in Location.cuisine">{{ cuisine }}{{ {true: '', false: ', '}[$last] }}</span>
+    </div>
+    <div class="col-xs-2 col-md-2">
+      {{ Location.price }}<br>
+      {{ Location.hours }}
+    </div>
+    <div class="col-xs-3 col-md-3">
+      <a href="" ng-click="addReview(Location)">Add Review</a>
+    </div>
   </div>
 
-  <h2>Reviews</h2>
 
-  <div ng-repeat="review in Location.reviews">
-    Rating: {{ review.rating }}<br>
-    {{ review.body }}<br>
-    {{ review.updated | date:'fullDate' }}
-  </div>
+  <div ng-show="contextState">
 
-  <!-- Location.pick: Boolean, -->
+    <!--
+      <h4>Type</h4>
+      <ul>
+        <li ng-repeat="type in Location.type">{{ type }}</li>
+      </ul>
+     -->
 
-  <div>
-    Created: {{ Location.created | date:'fullDate' }}<br>
-    Updated: {{ Location.updated | date:'fullDate' }}
+    <div>
+      {{ Location.address }}<br>
+      {{ Location.city }}, {{ Location.state }} {{ Location.postalCode }}<br>
+      {{ Location.phone }}<br>
+      <a ng-href="{{ Location.url }}">{{ Location.url }}</a>
+    </div>
+
+    <div>
+      <span ng-repeat="detail in Location.details">{{ detail }}{{ {true: '', false: ', '}[$last] }}</span>
+    </div>
+
+    <h2>Reviews</h2>
+
+    <div ng-repeat="review in Location.reviews">
+      Rating: {{ review.rating }}<br>
+      {{ review.body }}<br>
+      {{ review.updated | date:'fullDate' }}
+    </div>
+
+    <!-- Location.pick: Boolean, -->
+
+    <div>
+      Created: {{ Location.created | date:'fullDate' }}<br>
+      Updated: {{ Location.updated | date:'fullDate' }}
+    </div>
   </div>
 </div>

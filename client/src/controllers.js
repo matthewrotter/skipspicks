@@ -1,5 +1,15 @@
 (function() {
 
+  angular.module('skipspicks').controller('SettingsController', ['$scope', '$rootScope', 'ContextService', 'snapRemote', function($scope, $rootScope, ContextService, snapRemote) {
+    $scope.showEstablishLocation = function() {
+      snapRemote.close();
+      $rootScope.templateUrl = 'partials/establish-location.html';
+      ContextService.show();
+    };
+
+  }]);
+
+
   angular.module('skipspicks').controller('AddReviewController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
     $scope.Review = {
       rating: 1
@@ -79,7 +89,7 @@
   }]);
 
 
-  angular.module('skipspicks').controller('ContextController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
+  angular.module('skipspicks').controller('LocationDetailController', ['$scope', '$rootScope', '$http', 'ContextService', 'ConfigService', 'Config', function($scope, $rootScope, $http, ContextService, ConfigService, Config) {
     $scope.addReview = function() {
       $rootScope.templateUrl = 'partials/add-review.html';
       ContextService.full();
@@ -93,6 +103,9 @@
      ContextService.show();
      $rootScope.templateUrl = 'partials/establish-location.html';
      */
+    $scope.snapOptions = {
+      disable: 'left'
+    };
 
     $scope.handleToggle = function() {
       ContextService.cHandleToggle();
@@ -153,10 +166,6 @@
      // 52db0e68053794ea7b000003
      */
 
-    $rootScope.showEstablishLocation = function() {
-      $rootScope.templateUrl = 'partials/establish-location.html';
-      ContextService.show();
-    };
     $rootScope.hideEditor = function() {
       console.log('HIDE');
       ContextService.hide();

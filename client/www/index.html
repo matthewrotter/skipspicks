@@ -9,28 +9,41 @@
   <link href="assets/css/style.css" rel="stylesheet" type="text/css"/>
   <link href="assets/css/leaflet.min.css" rel="stylesheet" type="text/css"/>
   <link href="assets/css/ng-tags-input.min.css" rel="stylesheet" type="text/css"/>
+  <link href="assets/css/angular-snap.min.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
+<div snap-drawer="right">
+  <div id="settings" snap-drawer="right" ng-controller="SettingsController">
+    SETTINGS
 
-<div ng-controller="MapController">
-  <div id="map"></div>
+    <ul>
+      <li>
+        <a href="" ng-click="showEstablishLocation()">Add Location</a>
+      </li>
+    </ul>
+  </div>
 </div>
 
 
-<div id="searchbox" ng-controller="SearchController">
-  <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="search()" on-tag-removed="search()">
-    <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
-  </tags-input>
-</div>
+<div snap-content snap-options="snapOptions">
+  <div ng-controller="MapController">
+    <div id="map"></div>
+  </div>
 
 
-<div id="settingsButton" class="floatButton" ng-click="showSettings()">
-  SETTINGS
-</div>
+  <div id="searchbox" ng-controller="SearchController">
+    <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="search()" on-tag-removed="search()">
+      <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
+    </tags-input>
+  </div>
 
-<div id="context" class="portrait" ng-controller="ContextController">
-  <div class="container" ng-include="templateUrl"></div>
+
+  <div id="context" class="portrait">
+    <div id="settingsButton" class="floatButton" snap-toggle="right" snap-dragger></div>
+
+    <div class="container" ng-include="templateUrl"></div>
+  </div>
 </div>
 
 <script src="assets/js/vendor.min.js"></script>

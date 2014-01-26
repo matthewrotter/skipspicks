@@ -45,14 +45,20 @@ div#map {
   z-index: 15;
   background: #ffffff;
   padding: 5px;
-  border-radius: 3px;
-  -webkit-border-radius: 3px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-bottom-left-radius: 5px;
 }
 
 #settingsButton {
   position: absolute;
-  bottom: 42%;
-  right: 10px;
+  top: -60px;
+  right: -2px;
+  width: 40px;
+  height: 40px;
+  background: url("../img/hamburger.png") no-repeat center;
+  background-size: 40px 40px;
 }
 
 #context .handle {
@@ -65,13 +71,6 @@ div#map {
   margin: 0 auto;
   background: #ffffff;
   z-index: 43;
-}
-
-#context.landscape.show {
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
-  -webkit-transition-duration: 0.3s;
-  transition-duration: 0.3s;
 }
 
 #context.portrait {
@@ -88,7 +87,7 @@ div#map {
   transform: translateY(0);
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
-  overflow: hidden;
+  overflow: visible;
 }
 
 #context.portrait.full {
@@ -139,5 +138,4 @@ div#map {
   -webkit-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-
 */

@@ -15,6 +15,8 @@ module.exports = function(grunt) {
         src: [
           '<%= clientdir %>/vendor/underscore.min.js',
           '<%= clientdir %>/vendor/angular.min.js',
+          '<%= clientdir %>/vendor/snap.min.js',
+          '<%= clientdir %>/vendor/angular-snap.min.js',
           // '<%= clientdir %>/vendor/angular-route.min.js',
           '<%= clientdir %>/vendor/leaflet.min.js',
           '<%= clientdir %>/vendor/ng-tags-input.min.js'

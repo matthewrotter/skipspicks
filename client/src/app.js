@@ -1,6 +1,6 @@
 (function() {
 
-  angular.module('skipspicks', ['ngTagsInput']);
+  angular.module('skipspicks', ['ngTagsInput', 'snap']);
 
   angular.module('skipspicks').run(['$rootScope', 'ContextService', function($rootScope, ContextService) {
 
