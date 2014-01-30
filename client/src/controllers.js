@@ -6,6 +6,7 @@
     $scope.addTag = function(tag) {
       $rootScope.tags.push(tag);
       $rootScope.tagSearch();
+      snapRemote.close();
     };
 
     $scope.used = function(item) {
@@ -141,7 +142,7 @@
 
     $scope.snapOptions = {
       disable: 'left',
-      minPosition: -400
+      minPosition: -265
     };
 
     $scope.handleToggle = function() {
@@ -211,6 +212,10 @@
   angular.module('skipspicks').controller('SearchController', ['$scope', '$rootScope', '$http', '$q', 'LocationRestService', 'MapService', 'ContextService', 'ConfigService', function($scope, $rootScope, $http, $q, LocationRestService, MapService, ContextService, ConfigService) {
     var keywords = [];
 
+    $scope.try = function() {
+      console.log('clicked in box...');
+    };
+
     ConfigService.async().then(function(result) {
       // BEER: move to config, js or mongo
       ['cuisines', 'details', 'prices', 'ratings', 'types'].forEach(function(cat) {
@@ -218,7 +223,7 @@
       });
     });
 
-    $rootScope.tags = ['Restaurant', 'Bar'];
+    $rootScope.tags = []; // ['Restaurant', 'Bar'];
 
     $scope.loadTags = function(query) {
       var deferred = $q.defer(),
@@ -228,12 +233,16 @@
       var filtered = _.filter(keywords, function(item) {
         return item.match(regexp);
       });
+      filtered = _.union(['Restaurant', 'Bar'], filtered);
+      console.log('FGG', filtered);
       deferred.resolve(filtered);
 
       return deferred.promise;
     };
 
     $rootScope.tagSearch = function() {
+      // document.querySelector('input[type="search"]').blur();
+      // document.getElementById('establishName').blur();
       ContextService.hide();
       var filter = {
         tags: $rootScope.tags,

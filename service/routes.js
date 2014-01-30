@@ -39,6 +39,7 @@ exports = module.exports = function(app) {
       _.extend(query, {
         $or: [
           {cuisine: {$in: filters.tags}},
+          {details: {$in: filters.tags}},
           {type: {$in: filters.tags}},
           {name: {$in: filters.tags}}
         ]

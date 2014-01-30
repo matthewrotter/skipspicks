@@ -26,8 +26,9 @@
 
 
   <div id="searchbox" ng-controller="SearchController">
-    <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="tagSearch()" on-tag-removed="tagSearch()">
-      <auto-complete min-length="1" source="loadTags($query)"></auto-complete>
+    <tags-input ng-model="tags" placeholder="Filter locations" on-tag-added="tagSearch()" on-tag-removed="tagSearch()"
+                replace-spaces-with-dashes="false">
+      <auto-complete min-length="1" source="loadTags($query)" ng-click="try()"></auto-complete>
     </tags-input>
   </div>
 

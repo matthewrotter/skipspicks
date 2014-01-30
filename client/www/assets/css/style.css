@@ -53,6 +53,7 @@ div#map {
 
 #settings {
   padding: 10px;
+  overflow: hidden;
 }
 
 #settingsButton {
