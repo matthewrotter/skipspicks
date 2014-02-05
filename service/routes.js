@@ -159,18 +159,24 @@ exports = module.exports = function(app) {
   /*
    * Google Places pass-thru
    */
-  app.get(urlRoot + '/places/:latlng/:query', function(req, res, next) {
+  app.get(urlRoot + '/places/:latlng/:query?', function(req, res, next) {
     // key and sensor are set in config
-    var options = {
-      location: req.params.latlng,
-      radius: app.config.google.places.radius,
-      types: 'bar|restaurant|food|liquor_store|casino|convenience_store|bowling_alley|cafe|grocery_or_supermarket|laundry|lodging|meal_delivery|meal_takeaway|movie_theater|night_club|park|police|spa|stadium',
-      // rankby: 'distance', // for nearby, not text search
-      // keyword: req.params.query, // nearby
-      query: req.params.query // text search
-    };
+    var url = app.config.google.places.nearbySearchEndpoint,
+      options = {
+        location: req.params.latlng,
+        types: 'bar|restaurant|food|liquor_store|casino|convenience_store|bowling_alley|cafe|grocery_or_supermarket|laundry|lodging|meal_delivery|meal_takeaway|movie_theater|night_club|park|police|spa|stadium',
+        // keyword: req.params.query, // nearby
+      };
 
-    var url = app.config.google.places.endpoint + '&' + qs.stringify(options);
+    if (req.params.query) {
+      options.query = req.params.query;
+      options.radius = app.config.google.places.radius;
+      url = app.config.google.places.textSearchEndpoint;
+    } else {
+      options.rankby = 'distance'; // for nearby, not text search
+    }
+
+    url += '&' + qs.stringify(options);
     console.log('GoogUrl', url);
     request.get(url).pipe(res);
   });

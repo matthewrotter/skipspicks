@@ -20,7 +20,7 @@
           return $http.put(Config.service.host + Config.service.endpoints.location, location);
         },
         findPlaces: function(latlng, query) {
-          return $http.get(Config.service.endpoints.places + '/' + latlng.join(',') + '/' + query);
+          return $http.get(Config.service.endpoints.places + '/' + latlng.join(',') + (query ? '/' + query : ''));
         },
         // convenience method
         qs: function(obj) {

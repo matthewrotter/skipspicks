@@ -43,6 +43,8 @@
       // BEER: move to service
       $http.post('http://localhost:4001/api/v1/location/' + $scope.Location._id + '/review', $scope.Review)
         .success(function(result) {
+          alert('SAVED');
+          ContextService.hide();
           console.log('SAVED', result);
         })
         .error(function(err) {
@@ -54,6 +56,17 @@
 
   angular.module('skipspicks').controller('EstablishLocationController', ['$scope', '$rootScope', 'GeoService', 'LocationRestService', 'ContextService', function($scope, $rootScope, GeoService, LocationRestService, ContextService) {
     $scope.Establish = {};
+
+    // BEER: not DRY
+    LocationRestService.findPlaces(GeoService.location)
+      .success(function(result) {
+        console.log('GoogPlace', result);
+        $scope.matches = result.results.slice(0, 3);
+      })
+      .error(function(err) {
+        console.log('Error', err);
+      });
+
 
     // BEER: handle this in directive or better
     $scope.blur = function() {
@@ -85,8 +98,9 @@
     };
 
     $scope.chooseLocation = function(loc) {
-      var comps = loc.formatted_address.split(', '),
-        subcomp = comps[2].split(' ');
+      var addr = loc.formatted_address || loc.vicinity;
+      var comps = addr.split(', '),
+        subcomp = comps[2] ? comps[2].split(' ') : [];
       console.log('ChLoc', loc);
       $rootScope.LocationEdit = {
         name: loc.name,
@@ -174,6 +188,7 @@
       LocationRestService.createLocation($rootScope.LocationEdit)
         .success(function(result) {
           console.log('LOCSAVED', result);
+          ContextService.hide();
           alert('SAVED');
         })
         .error(function(err) {
@@ -198,7 +213,6 @@
      */
 
     $rootScope.hideEditor = function() {
-      console.log('HIDE');
       ContextService.hide();
     };
 

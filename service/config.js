@@ -7,7 +7,8 @@ module.exports = exports = {
   google: {
     apiKey: keys.google,
     places: {
-      endpoint: 'https://maps.googleapis.com/maps/api/place/textsearch/json?sensor=true&key=' + keys.google,
+      textSearchEndpoint: 'https://maps.googleapis.com/maps/api/place/textsearch/json?sensor=true&key=' + keys.google,
+      nearbySearchEndpoint: 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?sensor=true&key=' + keys.google,
       radius: 8000 // meters; about 5 miles
     }
   }
