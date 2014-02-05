@@ -41,7 +41,7 @@
       console.log('addrevsave', $scope.Location);
 
       // BEER: move to service
-      $http.post('http://localhost:4001/api/v1/location/' + $scope.Location._id + '/review', $scope.Review)
+      $http.post(Config.service.host + Config.service.endpoints.location + '/' + $scope.Location._id + '/review', $scope.Review)
         .success(function(result) {
           alert('SAVED');
           ContextService.hide();
