@@ -52,6 +52,8 @@ ToDo:
   - ratingfilter 
   - sort bys 
   - 
+  
+- add WiFi passwords to model
 
 - IMPORT
   - downcase, or store a queryable substitute in separate field
